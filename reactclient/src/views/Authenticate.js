@@ -1,6 +1,5 @@
 import React, { memo, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import useWillMount from '../custom hooks/useWillMount';
 import * as queryString from 'query-string';
 
 const Authenticate = (props) => {
@@ -25,8 +24,7 @@ const Authenticate = (props) => {
         const resData = await response.json()
         console.log(resData, response.status)
         if(response.status === 200){
-            alert("success")
-            history.push('/')
+            history.replace('/')
         }
     }
 

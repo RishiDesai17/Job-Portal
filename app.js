@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 require('dotenv').config({path: __dirname + '/.env'})
 
 const userRoutes = require('./routes/users');
@@ -15,6 +16,7 @@ mongoose.Promise = global.Promise;
 
 app.use('/uploads',express.static('uploads'));
 app.use(express.json());
+app.use(cookieParser());
 
 // app.use((req,res,next)=>{
 //   res.header('Access-Control-Allow-Origin','*');

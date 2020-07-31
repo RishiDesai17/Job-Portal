@@ -23,7 +23,7 @@ const Login = (props) => {
 
     return (
         <>
-            <a href={googleLoginURL}>Google LOGIN</a>
+            <a href={googleLoginURL} >Google LOGIN</a>
         </>
     )
 }

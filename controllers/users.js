@@ -4,47 +4,78 @@ const jwt = require('jsonwebtoken');
 const nodeFetch = require('node-fetch');
 const User = require('../models/users');
 
+const { google } = require('googleapis');
+
+const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    'http://localhost:3000/auth'
+);
+
 exports.login = async(req, res) => {
     try{
-        // console.log("x")
-        const tokens = await nodeFetch('https://oauth2.googleapis.com/token', {
-            method: 'POST',
-            body: JSON.stringify({
-                client_id: process.env.GOOGLE_CLIENT_ID,
-                client_secret: process.env.GOOGLE_CLIENT_SECRET,
-                redirect_uri: 'http://localhost:3000/auth',
-                grant_type: 'authorization_code',
-                code: req.body.code
-            }),
-        })
-        const { access_token } = await tokens.json()
-        console.log(access_token)
-        // console.log("x")
+        var st = new Date()
+        const { tokens } = await oauth2Client.getToken(req.body.code)
         const google_profile = await nodeFetch('https://www.googleapis.com/oauth2/v2/userinfo', {
             method: 'GET',
             headers: {
-              Authorization: `Bearer ${access_token}`,
+              Authorization: `Bearer ${tokens.access_token}`,
             },
         });
-        const { id, name, email, picture } = await google_profile.json()
-        const existingUser = await User.findById(r1.id)
-        console.log(existingUser)
-        if(existingUser !== null){
-            return res.status(200).json(existingUser)
-        }
-        const user = new User({
-            _id: id,
-            name,
-            email,
-            profile_pic: picture
+        var googleProfile = await google_profile.json()
+        const tokenpair = await generateTokens(googleProfile.id)
+        res.cookie('job_portal_token', tokenpair[1], {
+            httpOnly: true,
+            sameSite: true,
+            secure: false
         })
-        const userData = await user.save()
-        return res.status(200).json(userData)
+        var existingUser = await User.findById(googleProfile.id)
+        var en = new Date()
+        console.log(en-st)
+        if(existingUser === null){
+            return res.status(200).json({
+                _id: googleProfile.id,
+                name: googleProfile.name,
+                email: googleProfile.email,
+                profile_pic: googleProfile.picture,
+                access_token: tokenpair[0]
+            })
+        }
+        return res.status(200).json({
+            _id: existingUser._id,
+            name: existingUser.name,
+            email: existingUser.email,
+            profile_pic: existingUser.profile_pic,
+            access_token: tokenpair[0]
+        })
     }
     catch(err){
         console.log(err)
         return res.status(500).json(err)
     }
+    finally{
+        try{
+            if(existingUser === null){
+                await new User({
+                    _id: googleProfile.id,
+                    name: googleProfile.name,
+                    email: googleProfile.email,
+                    profile_pic: googleProfile.picture
+                }).save()
+            }
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+}
+
+const generateTokens = async(id) => {
+    return await Promise.all([jwt.sign({ id }, process.env.SECRETKEY, {
+        expiresIn: '600s'
+    }), jwt.sign({ id }, process.env.REFRESHTOKENKEY, {
+        expiresIn: 15778800000
+    })])
 }
 
 // exports.users_signup = (req,res)=>{
