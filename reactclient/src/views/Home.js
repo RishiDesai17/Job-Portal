@@ -4,7 +4,7 @@ const Home = (props) => {
     const [state, setState] = useState()
 
     const refresh_access_token = async() => {
-        const response = await fetch('api/users/refresh', {
+        const response = await fetch('api/refresh', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -5,9 +5,7 @@ const checkAuth = require('../middleware/check-auth');
 
 // router.post('/signup', UsersController.users_signup)
 
-router.post('/login', UsersController.login)
-
-router.post('/refresh', UsersController.refresh)
+router.post('/googlelogin', UsersController.googlelogin)
 
 // router.get('/:userId', checkAuth, UsersController.get_user)
 

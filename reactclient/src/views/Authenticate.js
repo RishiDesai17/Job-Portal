@@ -12,7 +12,7 @@ const Authenticate = (props) => {
             history.replace('/')
             return;
         }
-        const response = await fetch(`api/users/login`, {
+        const response = await fetch(`api/users/googlelogin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

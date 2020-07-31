@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config({path: __dirname + '/.env'})
 
 const userRoutes = require('./routes/users');
+const tokenRoutes = require('./routes/refreshAccessTokens');
 
 mongoose.connect(process.env.DBURL, {
   useUnifiedTopology: true,
@@ -54,6 +55,7 @@ else{
 }
 
 app.use('/api/users', userRoutes);
+app.use('/api/refresh', tokenRoutes);
 
 app.use((req,res,next)=>{
   const error = new Error("Not Found...");
