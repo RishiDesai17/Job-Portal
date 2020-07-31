@@ -7,6 +7,8 @@ const checkAuth = require('../middleware/check-auth');
 
 router.post('/login', UsersController.login)
 
+router.post('/refresh', UsersController.refresh)
+
 // router.get('/:userId', checkAuth, UsersController.get_user)
 
 // router.delete('/:userId', checkAuth, UsersController.users_delete_user)

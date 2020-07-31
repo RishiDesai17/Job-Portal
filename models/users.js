@@ -16,7 +16,23 @@ const userSchema = new mongoose.Schema({
     profile_pic: {
         type: String,
         required: true
-    }
+    },
+    resumes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Resume'
+    }],
+    jobsApplied: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Job'
+    }],
+    jobsShortlisted: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Job'
+    }],
+    jobsSelected: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Job'
+    }]
 },
 {
     timestamps: true

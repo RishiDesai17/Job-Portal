@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodeFetch = require('node-fetch');
 const User = require('../models/users');
+const Submission = require('../models/submission');
 
 const { google } = require('googleapis');
 
@@ -23,7 +24,7 @@ exports.login = async(req, res) => {
             },
         });
         const { id, name, email, picture } = await google_profile.json()
-        const tokenpair = await generateTokens(id)
+        const tokenpair = await generateTokens(id, 'user')
         res.cookie('job_portal_token', tokenpair[1], {
             httpOnly: true,
             sameSite: true,
@@ -57,13 +58,64 @@ exports.login = async(req, res) => {
     }
 }
 
-const generateTokens = async(id) => {
-    return await Promise.all([jwt.sign({ id }, process.env.SECRETKEY, {
+exports.refresh = async(req,res) => {
+    // console.log("x")
+    try{
+        const { id, role } = jwt.verify(req.cookies.job_portal_token, process.env.REFRESHTOKENKEY)
+        console.log(id)
+        const access_token = jwt.sign({ id, role }, process.env.SECRETKEY, {
+            expiresIn: '600s'
+        })
+        if(req.body.getprofile){
+            let user = await User.findById(id)
+            if(role == 'employer'){
+                user = user.toObject()
+                delete user.password
+            }
+            return res.json({
+                user,
+                access_token
+            })
+        }
+        return res.json({
+            access_token
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.status(401).json({
+            message: 'Authorization failed'
+        })
+    }
+}
+
+const generateTokens = async(id, role) => {
+    return await Promise.all([jwt.sign({ id, role }, process.env.SECRETKEY, {
         expiresIn: '600s'
-    }), jwt.sign({ id }, process.env.REFRESHTOKENKEY, {
+    }), jwt.sign({ id, role }, process.env.REFRESHTOKENKEY, {
         expiresIn: 15778800000
     })])
 }
+
+// exports.test = async(req,res) => {
+//     try{
+//         const submission = await new Submission({
+//             answers: [
+//                 {
+//                     question: 'jbasajdvkj',
+//                     answer: 'ysfdigadvh'
+//                 }
+//             ]
+//         }).save()
+//         res.json(submission)
+//     }
+//     catch(err){
+//         console.log(err)
+//         res.json({
+//             err
+//         })
+//     }
+// }
 
 // exports.users_signup = (req,res)=>{
 //     User.find({ email: req.body.email }).exec().then(user=>{
