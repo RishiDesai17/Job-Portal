@@ -22,51 +22,38 @@ exports.login = async(req, res) => {
               Authorization: `Bearer ${tokens.access_token}`,
             },
         });
-        var googleProfile = await google_profile.json()
-        const tokenpair = await generateTokens(googleProfile.id)
+        const { id, name, email, picture } = await google_profile.json()
+        const tokenpair = await generateTokens(id)
         res.cookie('job_portal_token', tokenpair[1], {
             httpOnly: true,
             sameSite: true,
             secure: false
         })
-        var existingUser = await User.findById(googleProfile.id)
-        var en = new Date()
-        console.log(en-st)
+        const existingUser = await User.findById(id)
         if(existingUser === null){
+            const user = await new User({
+                _id: id,
+                name,
+                email,
+                profile_pic: picture
+            }).save()
+            var en = new Date()
+            console.log(en-st)
             return res.status(200).json({
-                _id: googleProfile.id,
-                name: googleProfile.name,
-                email: googleProfile.email,
-                profile_pic: googleProfile.picture,
+                user,
                 access_token: tokenpair[0]
             })
         }
+        var en = new Date()
+        console.log(en-st)
         return res.status(200).json({
-            _id: existingUser._id,
-            name: existingUser.name,
-            email: existingUser.email,
-            profile_pic: existingUser.profile_pic,
+            user: existingUser,
             access_token: tokenpair[0]
         })
     }
     catch(err){
         console.log(err)
         return res.status(500).json(err)
-    }
-    finally{
-        try{
-            if(existingUser === null){
-                await new User({
-                    _id: googleProfile.id,
-                    name: googleProfile.name,
-                    email: googleProfile.email,
-                    profile_pic: googleProfile.picture
-                }).save()
-            }
-        }
-        catch(err){
-            console.log(err)
-        }
     }
 }
 
