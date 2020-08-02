@@ -5,9 +5,6 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 require('dotenv').config({path: __dirname + '/.env'})
 
-const userRoutes = require('./routes/users');
-const tokenRoutes = require('./routes/refreshAccessTokens');
-
 mongoose.connect(process.env.DBURL, {
   useUnifiedTopology: true,
   useNewUrlParser: true
@@ -18,6 +15,14 @@ mongoose.Promise = global.Promise;
 app.use('/uploads',express.static('uploads'));
 app.use(express.json());
 app.use(cookieParser());
+
+const userRoutes = require('./routes/users');
+const tokenRoutes = require('./routes/refreshAccessTokens');
+const employerRoutes = require('./routes/employers');
+
+app.use('/api/users', userRoutes);
+app.use('/api/refresh', tokenRoutes);
+app.use('/api/employers', employerRoutes);
 
 // app.use((req,res,next)=>{
 //   res.header('Access-Control-Allow-Origin','*');
@@ -53,9 +58,6 @@ else{
     res.sendFile(__dirname + "/reactclient/build/index.html");
   });
 }
-
-app.use('/api/users', userRoutes);
-app.use('/api/refresh', tokenRoutes);
 
 app.use((req,res,next)=>{
   const error = new Error("Not Found...");

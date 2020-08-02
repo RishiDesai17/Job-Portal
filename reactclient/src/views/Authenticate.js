@@ -8,6 +8,7 @@ const Authenticate = (props) => {
 
     const auth = async() => {
         const queryParams = queryString.parse(window.location.search)
+        console.log(queryParams)
         if(!queryParams.code){
             history.replace('/')
             return;

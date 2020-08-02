@@ -22,6 +22,10 @@ const jobSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    perks: [{
+        type: String,
+        required: true
+    }],
     skills: [{
         type: String,
         required: true
@@ -32,8 +36,8 @@ const jobSchema = new mongoose.Schema({
     },
     preInterview: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'PreInterview'
+        ref: 'PreInterview',
+        default: false
     },
     applicants: [{
         type: mongoose.Schema.Types.ObjectId,

@@ -1,9 +1,5 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const nodeFetch = require('node-fetch');
 const User = require('../models/users');
-const Submission = require('../models/submission');
 const { generateTokens } = require('../utils/token')
 
 const { google } = require('googleapis');
@@ -17,6 +13,7 @@ const oauth2Client = new google.auth.OAuth2(
 exports.googlelogin = async(req, res) => {
     try{
         var st = new Date()
+        console.log(req.body)
         const { tokens } = await oauth2Client.getToken(req.body.code)
         const google_profile = await nodeFetch('https://www.googleapis.com/oauth2/v2/userinfo', {
             method: 'GET',
@@ -43,6 +40,7 @@ exports.googlelogin = async(req, res) => {
             var en = new Date()
             console.log(en-st)
             return res.status(200).json({
+                message: 'Authorization successful',
                 user,
                 access_token: tokenpair[0]
             })
@@ -50,13 +48,16 @@ exports.googlelogin = async(req, res) => {
         var en = new Date()
         console.log(en-st)
         return res.status(200).json({
+            message: 'Authorization successful',
             user: existingUser,
             access_token: tokenpair[0]
         })
     }
     catch(err){
         console.log(err)
-        return res.status(500).json(err)
+        return res.status(401).json({
+            message: 'Authorization failed'
+        })
     }
 }
 
