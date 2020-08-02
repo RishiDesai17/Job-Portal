@@ -4,6 +4,11 @@ const Employer = require('../models/employers');
 
 exports.refresh = async(req,res) => {
     try{
+        if(!req.cookies.job_portal_token){
+            return res.status(401).json({
+                message: 'Authorization failed'
+            })
+        }
         const { id, role } = jwt.verify(req.cookies.job_portal_token, process.env.REFRESHTOKENKEY)
         const access_token = jwt.sign({ id, role }, process.env.SECRETKEY, {
             expiresIn: '600s'
@@ -24,7 +29,8 @@ exports.refresh = async(req,res) => {
             }
             return res.status(200).json({
                 profile,
-                access_token
+                access_token,
+                role
             })
         }
         return res.status(200).json({
