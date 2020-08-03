@@ -23,10 +23,12 @@ exports.googlelogin = async(req, res) => {
         });
         const { id, name, email, picture } = await google_profile.json()
         const tokenpair = await generateTokens(id, 'user')
+        let dt = new Date()
         res.cookie('job_portal_token', tokenpair[1], {
             httpOnly: true,
             sameSite: true,
-            path: '/refresh',
+            // path: '/refresh',
+            expires: new Date(dt.setMonth(dt.getMonth()+6)),
             secure: false
         })
         const existingUser = await User.findById(id)

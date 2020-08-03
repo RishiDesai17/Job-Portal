@@ -4,7 +4,9 @@ const Employer = require('../models/employers');
 
 exports.refresh = async(req,res) => {
     try{
+        console.log(req.cookies)
         if(!req.cookies.job_portal_token){
+            console.log("x")
             return res.status(401).json({
                 message: 'Authorization failed'
             })

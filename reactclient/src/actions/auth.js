@@ -9,13 +9,14 @@ export const init = () => async dispatch => {
                 'Content-Type': 'application/json'
             }
         })
-        console.log(response+"x")
+        console.log(response)
+        const { profile, role, access_token } = response.data
         dispatch({
             type: 'INIT',
             payload: {
                 isLoggedIn: true,
-                profile: response.profile,
-                role: response.role
+                profile,
+                role
             }
         })
     }
