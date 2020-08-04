@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const morgan = require('morgan')
 require('dotenv').config({path: __dirname + '/.env'})
 
 mongoose.connect(process.env.DBURL, {
@@ -12,6 +13,7 @@ mongoose.connect(process.env.DBURL, {
 
 mongoose.Promise = global.Promise;
 
+app.use(morgan('dev'));
 app.use('/uploads',express.static('uploads'));
 app.use(express.json());
 app.use(cookieParser());

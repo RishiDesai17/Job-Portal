@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 
+const arrayLimit = (arr) => {
+    return arr.length <= 5
+}
+
 const userSchema = new mongoose.Schema({
     _id: {
         type: String,
@@ -17,10 +21,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    resumes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Resume'
-    }],
+    resumes: {
+        type: [{
+            type: String,
+        }],
+        validate: arrayLimit
+    },
     jobsApplied: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Job'

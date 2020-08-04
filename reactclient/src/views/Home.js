@@ -1,26 +1,26 @@
 import React, { memo, useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom'
+import { addResume } from '../actions/auth'
+import Item from '../components/Item';
 
 const Home = (props) => {
     const [state, setState] = useState()
-
-    const refresh_access_token = async() => {
-        const response = await fetch('api/refresh', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                getprofile: 'false'
-            })
-        })
-        const resData = await response.json()
-        console.log(resData)
-    }
+    const selectedData = useSelector(state => state.AuthReducer.profile, shallowEqual)
+    // const resumes = useSelector(state => state.AuthReducer.resumes, shallowEqual)
+    const dispatch = useDispatch()
 
     return (
         <>
             <h1>Home</h1>
-            <button onClick={refresh_access_token}>New access token</button>
+            {console.log("render home")}
+            {JSON.stringify(selectedData)}
+            <Item />
+            <button onClick={() => {
+                dispatch(addResume('c'))
+            }}>test</button>
+            <Link to="/login">login</Link>
+            <Link to="/protected">Protected</Link>
         </>
     )
 }

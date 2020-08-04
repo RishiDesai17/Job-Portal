@@ -1,9 +1,13 @@
 import React, { memo, useState, useEffect } from 'react';
+import { login } from '../actions/auth';
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom';
 import * as queryString from 'query-string';
+import axios from 'axios';
 
 const Authenticate = (props) => {
     const [state, setState] = useState()
+    const dispatch = useDispatch()
     const history = useHistory()
 
     const auth = async() => {
@@ -13,18 +17,7 @@ const Authenticate = (props) => {
             history.replace('/')
             return;
         }
-        const response = await fetch(`api/users/googlelogin`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                code: queryParams.code
-            })
-        })
-        const resData = await response.json()
-        console.log(resData, response.status)
-        if(response.status === 200){
+        if(await dispatch(login()) === 200){
             history.replace('/')
         }
     }

@@ -1,9 +1,20 @@
-import React, { memo, useState, useMemo } from 'react';
+import React, { memo, useState, useMemo, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { google_client_id } from '../config/config';
 import * as queryString from 'query-string';
 
 const Login = (props) => {
     const [state, setState] = useState()
+    const history = useHistory()
+    const isLoggedIn = useSelector(state => state.AuthReducer.isLoggedIn)
+
+    // useEffect(() => {
+        console.log(isLoggedIn)
+        if(isLoggedIn){
+            history.replace("/")
+        }
+    // },[])
 
     const googleLoginURL = useMemo(() => {
         const stringifiedParams = queryString.stringify({

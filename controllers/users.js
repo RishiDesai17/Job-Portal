@@ -13,6 +13,7 @@ const oauth2Client = new google.auth.OAuth2(
 exports.googlelogin = async(req, res) => {
     try{
         var st = new Date()
+        console.log("x")
         console.log(req.body)
         const { tokens } = await oauth2Client.getToken(req.body.code)
         const google_profile = await nodeFetch('https://www.googleapis.com/oauth2/v2/userinfo', {
@@ -43,7 +44,8 @@ exports.googlelogin = async(req, res) => {
             console.log(en-st)
             return res.status(200).json({
                 message: 'Authorization successful',
-                user,
+                profile: user,
+                role: 'user',
                 access_token: tokenpair[0]
             })
         }
@@ -51,7 +53,8 @@ exports.googlelogin = async(req, res) => {
         console.log(en-st)
         return res.status(200).json({
             message: 'Authorization successful',
-            user: existingUser,
+            profile: existingUser,
+            role: 'user',
             access_token: tokenpair[0]
         })
     }
@@ -59,6 +62,24 @@ exports.googlelogin = async(req, res) => {
         console.log(err)
         return res.status(401).json({
             message: 'Authorization failed'
+        })
+    }
+}
+
+exports.addResume = async(req, res) => {
+    try{
+        console.log(req.body, req.file)
+        const updated = await User.findByIdAndUpdate(req.userData.id, {
+            $push: { 'resumes': req.file.path }
+        })
+        return res.status(200).json({
+            path: req.file.path
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.status(500).json({
+            error: err
         })
     }
 }
