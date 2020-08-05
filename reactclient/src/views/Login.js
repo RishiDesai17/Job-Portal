@@ -3,18 +3,24 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { google_client_id } from '../config/config';
 import * as queryString from 'query-string';
+import './styles/login.css';
+import { init } from '../actions/auth';
 
 const Login = (props) => {
-    const [state, setState] = useState()
+    const [isApplicant, setIsApplicant] = useState(true)
     const history = useHistory()
     const isLoggedIn = useSelector(state => state.AuthReducer.isLoggedIn)
 
-    // useEffect(() => {
-        console.log(isLoggedIn)
-        if(isLoggedIn){
-            history.replace("/")
-        }
-    // },[])
+    if(isLoggedIn){
+        history.replace("/")
+    }
+
+    // // useEffect(() => {
+    //     console.log(isLoggedIn)
+    //     if(isLoggedIn){
+    //         history.replace("/")
+    //     }
+    // // },[])
 
     const googleLoginURL = useMemo(() => {
         const stringifiedParams = queryString.stringify({
@@ -34,7 +40,14 @@ const Login = (props) => {
 
     return (
         <>
-            <a href={googleLoginURL} >Google LOGIN</a>
+            <h1>I am an...</h1>
+            <div>
+                {isApplicant ? 
+                    <a href={googleLoginURL} >Google LOGIN</a>
+                :
+                    <input />
+                }
+            </div>
         </>
     )
 }

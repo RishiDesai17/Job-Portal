@@ -1,28 +1,17 @@
 const INIT_STATE = {
     isLoggedIn: null,
     profile: null,
-    resumes: null,
+    resumes: [],
     role: null
 }
 
 const AuthReducer = (state = INIT_STATE, action) => {
     const { type, payload } = action
     switch(type){
-        case 'INIT':
+        case 'INIT/LOGIN':
             return {
                 ...state,
-                isLoggedIn: payload.isLoggedIn,
-                profile: payload.profile,
-                // resumes: payload.profile.resumes,
-                role: payload.role
-            }
-        case 'LOGIN':
-            return {
-                ...state,
-                isLoggedIn: payload.isLoggedIn,
-                profile: payload.profile,
-                // resumes: payload.profile.resumes,
-                role: payload.role
+                ...payload
             }
         case 'ADDRESUME':
             // let x = state.resumes
@@ -32,6 +21,11 @@ const AuthReducer = (state = INIT_STATE, action) => {
             return {
                 ...state,
                 resumes: [...state.resumes, payload.s]
+            }
+        case 'LOGOUT':
+            return {
+                ...INIT_STATE,
+                isLoggedIn: false
             }
         default:
             return state

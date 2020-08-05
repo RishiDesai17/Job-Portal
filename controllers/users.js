@@ -66,6 +66,20 @@ exports.googlelogin = async(req, res) => {
     }
 }
 
+exports.logout = (req, res) => {
+    try{
+        res.clearCookie("job_portal_token");
+        return res.status(200).json({
+            message: 'Logged out'
+        })
+    }
+    catch(err){
+        return res.status(500).json({
+            message: 'Something went wrong'
+        })
+    }
+}
+
 exports.addResume = async(req, res) => {
     try{
         console.log(req.body, req.file)

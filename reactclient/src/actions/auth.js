@@ -12,23 +12,26 @@ export const init = () => async dispatch => {
             }
         })
         console.log(response)
-        const { profile, role, access_token } = response.data
-        setAccessToken(access_token)
-        dispatch({
-            type: 'INIT',
-            payload: {
-                isLoggedIn: true,
-                profile,
-                role
-            }
-        })
-        setInterval(() => {
-            SilentlyReviveAccessToken()
-        },585000)
+        if(response.status === 200){
+            const { profile, role, access_token } = response.data
+            setAccessToken(access_token)
+            dispatch({
+                type: 'INIT/LOGIN',
+                payload: {
+                    isLoggedIn: true,
+                    profile,
+                    resumes: profile.resumes,
+                    role
+                }
+            })
+            setInterval(() => {
+                SilentlyReviveAccessToken()
+            },585000)
+        }
     }
     catch(err){
         dispatch({
-            type: 'INIT',
+            type: 'INIT/LOGIN',
             payload: {
                 isLoggedIn: false
             }
@@ -37,7 +40,7 @@ export const init = () => async dispatch => {
     }
 }
 
-export const login = async code => async dispatch => {
+export const login = code => async dispatch => {
     try{
         const response = await axios.post(`api/users/googlelogin`, 
             JSON.stringify({
@@ -52,19 +55,37 @@ export const login = async code => async dispatch => {
         console.log(response.data, response.status)
         if(response.status === 200){
             dispatch({
-                type: 'LOGIN',
+                type: 'INIT/LOGIN',
                 payload: {
                     isLoggedIn: true,
                     profile: response.profile,
                     role: response.role
                 }
             })
+            return true
         }
-        return response.status
     }
     catch(err){
         console.log(err)
     }
+    return false
+}
+
+export const logout = () => async dispatch => {
+    try{
+        const response = await axios.get("api/users/logout")
+        console.log(response)
+        if(response.status === 200){
+            dispatch({
+                type: 'LOGOUT'
+            })
+            return true
+        }
+    }
+    catch(err){
+        console.log(err)
+    }
+    return false
 }
 
 export const addResume = (s) => async dispatch => {

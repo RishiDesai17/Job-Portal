@@ -13,18 +13,22 @@ const Authenticate = (props) => {
     const auth = async() => {
         const queryParams = queryString.parse(window.location.search)
         console.log(queryParams)
-        if(!queryParams.code){
+        if(!queryParams.code || queryParams.error){
             history.replace('/')
             return;
         }
-        if(await dispatch(login()) === 200){
+        if(await dispatch(login(queryParams.code))){
             history.replace('/')
+        }
+        else{
+            alert("Something went wrong, Please try again")
+            history.replace('/login')
         }
     }
 
     useEffect(() => {
         auth()
-    },[])
+    }, [])
 
     return (
         <p>Logging you in...</p>
