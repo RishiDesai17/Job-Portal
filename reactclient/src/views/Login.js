@@ -1,10 +1,12 @@
 import React, { memo, useState, useMemo, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
+import ApplicantLogin from '../components/ApplicantLogin';
+import EmployerLogin from '../components/EmployerLogin';
 import { google_client_id } from '../config/config';
 import * as queryString from 'query-string';
 import './styles/login.css';
-import { init } from '../actions/auth';
 
 const Login = (props) => {
     const [isApplicant, setIsApplicant] = useState(true)
@@ -14,13 +16,6 @@ const Login = (props) => {
     if(isLoggedIn){
         history.replace("/")
     }
-
-    // // useEffect(() => {
-    //     console.log(isLoggedIn)
-    //     if(isLoggedIn){
-    //         history.replace("/")
-    //     }
-    // // },[])
 
     const googleLoginURL = useMemo(() => {
         const stringifiedParams = queryString.stringify({
@@ -39,16 +34,41 @@ const Login = (props) => {
     },[])
 
     return (
-        <>
-            <h1>I am an...</h1>
+        <div className="main">
             <div>
-                {isApplicant ? 
-                    <a href={googleLoginURL} >Google LOGIN</a>
-                :
-                    <input />
-                }
+                <h1 className="heading">I am an...</h1>
             </div>
-        </>
+            <div className="container">
+                <div className="login-container">
+                    <div className="tab" style={{ backgroundColor: isApplicant ? 'white' : '#2a2a72' }} onClick={() => setIsApplicant(true)}>
+                        <p className="type" style={{ color: isApplicant ? '#2a2a72' : 'white' }}>Applicant</p>
+                    </div>
+                    <div className="tab" style={{ background: !isApplicant ? 'white' : '#2a2a72' }} onClick={() => setIsApplicant(false)}>
+                        <p className="type" style={{ color: !isApplicant ? '#2a2a72' : 'white' }}>Employer</p>
+                    </div>
+                </div>
+                <div className="login-container">
+                    <div className="tab-content">
+                        <CSSTransition
+                            in={isApplicant}
+                            timeout={150} 
+                            classNames="my-node"
+                            unmountOnExit
+                        >
+                            <ApplicantLogin url={googleLoginURL} />
+                        </CSSTransition>
+                        <CSSTransition
+                            in={!isApplicant} 
+                            timeout={150} 
+                            classNames="my-node"
+                            unmountOnExit
+                        >
+                            <EmployerLogin />
+                        </CSSTransition>
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
 

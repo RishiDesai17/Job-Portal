@@ -1,0 +1,68 @@
+.main {
+    min-height: 100vh;
+    background-color: #2a2a72;
+    background-image: linear-gradient(315deg, #2a2a72 10%, #009ffd 68%);
+    
+}
+.heading {
+    font-family: 'MontserratRegular';
+    font-size: 40px;
+    margin: 0;
+    padding: 5vh;
+}
+.container {
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.login-container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+.tab {
+    width: 30vh;
+    height: 55px;
+    cursor: pointer;
+    font-family: 'MontserratRegular';
+    font-weight: 525;
+    font-size: 20px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.tab-content {
+    background-color: white;
+    width: 60vh;
+    height: 55vh;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+@media screen and (max-width: 425px) {
+    .tab{
+        width: 23vh;
+    }
+    .tab-content{
+        width: 46vh;
+    }
+}
+.type {
+    -ms-transform: translate(0%, -17%);
+    transform: translate(0%, -17%);
+}
+.my-node-enter {
+    opacity: 0;
+}
+.my-node-enter-active {
+    opacity: 1;
+    transition: opacity 200ms;
+}
+.my-node-exit {
+    opacity: 1;
+}
+.my-node-exit-active {
+    opacity: 0;
+    transition: opacity 200ms;
+}

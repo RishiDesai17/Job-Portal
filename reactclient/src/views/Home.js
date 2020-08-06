@@ -1,6 +1,7 @@
 import React, { memo, useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import './styles/home.css'
 
 const Home = (props) => {
     const [state, setState] = useState()
@@ -8,7 +9,7 @@ const Home = (props) => {
     const dispatch = useDispatch()
 
     return (
-        <>
+        <div>
             <h1>Home</h1>
             {console.log("render home")}
             {isLoggedIn === null ? 
@@ -23,7 +24,7 @@ const Home = (props) => {
                 </div>
             }
             
-        </>
+        </div>
     )
 }
 
