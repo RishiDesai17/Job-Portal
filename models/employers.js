@@ -9,6 +9,10 @@ const employerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    password: {
+        type: String,
+        required: true
+    },
     logo: {
         type: String
     },
@@ -26,7 +30,12 @@ const employerSchema = new mongoose.Schema({
     jobs: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Job'
-    }]
+    }],
+    confirmed: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 },
 {
     timestamps: true

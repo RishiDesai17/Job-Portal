@@ -1,14 +1,18 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { login } from '../actions/auth';
-import { useDispatch } from 'react-redux'
+import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom';
 import * as queryString from 'query-string';
 import axios from 'axios';
 
 const Authenticate = (props) => {
-    const [state, setState] = useState()
     const dispatch = useDispatch()
     const history = useHistory()
+    const isLoggedIn = useSelector(state => state.AuthReducer.isLoggedIn, shallowEqual)
+
+    if(isLoggedIn){
+        history.replace("/")
+    }
 
     const auth = async() => {
         const queryParams = queryString.parse(window.location.search)
@@ -31,7 +35,13 @@ const Authenticate = (props) => {
     }, [])
 
     return (
-        <p>Logging you in...</p>
+        <>
+            {isLoggedIn ? 
+                <p>Redirecting...</p> 
+            : 
+                <p>Logging you in...</p>
+            }
+        </>
     )
 }
 

@@ -2,13 +2,21 @@
     min-height: 100vh;
     background-color: #2a2a72;
     background-image: linear-gradient(315deg, #2a2a72 10%, #009ffd 68%);
-    
 }
 .heading {
     font-family: 'MontserratRegular';
-    font-size: 40px;
+    font-size: 50px;
     margin: 0;
+    color: whitesmoke;
     padding: 5vh;
+}
+#back-icon {
+    position: absolute;
+    left: 20px;
+    top: 15px;
+    font-size: 30px;
+    color: whitesmoke;
+    cursor: pointer;
 }
 .container {
     position: absolute;

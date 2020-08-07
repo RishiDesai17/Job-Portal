@@ -1,4 +1,6 @@
-import React, { memo, useReducer, useEffect, useCallback } from 'react';
+import React, { memo, useReducer, useEffect, useCallback, useRef } from 'react';
+import TextField from '@material-ui/core/TextField';
+import axios from 'axios';
 import './styles/EmployerLogin.css'
 
 const init_state = {
@@ -24,20 +26,55 @@ const EmployerLogin = (props) => {
         }
     }, [])
     const [state, dispatch] = useReducer(reducer, init_state)
+    const validEmail = useRef(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
 
-    const login = () => {
-        dispatch({type:'email', payload:'f'})
+    const login = async() => {
+        // dispatch({ type:'email', payload:'f' })
+        const response = await axios.post('api/employers/login',
+            JSON.stringify(state),
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+        if(response.status === 200) {
+            
+        }
     }
+
+    // const emailValidation = () => {
+    //     const isValid = state.email === "" || state.email.match(validEmail.current)
+    //     return(
+    //         <TextField
+    //             error={false}
+    //             id="outlined-error-helper-text"
+    //             label="Email*"
+    //             helperText="Invalid Email"
+    //             variant="outlined"
+    //         />
+    //     )
+    // }
 
     return (
         <>
             <div>
-                <input onChange={(e) => {
-                    dispatch({type: 'email', payload: e.target.value})
-                }} />
-                <input onChange={(e) => {
-                    dispatch({type: 'password', payload: e.target.value})
-                }} />
+                <TextField 
+                    id="outlined-basic"
+                    label="Email"
+                    variant="outlined"
+                    onChange={(e) => {
+                        dispatch({ type: 'email', payload: e.target.value })
+                    }}
+                />
+                <TextField 
+                    id="outlined-basic"
+                    label="Password"
+                    variant="outlined"
+                    onChange={(e) => {
+                        dispatch({ type: 'password', payload: e.target.value })
+                    }}
+                />
                 <button onClick={login}>LOGIN</button>
             </div>
         </>
