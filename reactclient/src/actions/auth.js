@@ -7,6 +7,10 @@ export const init = () => async dispatch => {
         const response = await axios.post('api/refresh', JSON.stringify({
             getprofile: true
         }),{
+            // onDownloadProgress: (progressEvent) => {
+            //     var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            //     console.log(percentCompleted)
+            // },
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -26,7 +30,7 @@ export const init = () => async dispatch => {
             })
             setInterval(() => {
                 SilentlyReviveAccessToken()
-            },585000)
+            }, 585000)
         }
     }
     catch(err){
@@ -54,14 +58,19 @@ export const login = code => async dispatch => {
         )
         console.log(response.data, response.status)
         if(response.status === 200){
+            const { profile, role, access_token } = response.data
+            setAccessToken(access_token)
             dispatch({
                 type: 'INIT/LOGIN',
                 payload: {
                     isLoggedIn: true,
-                    profile: response.profile,
-                    role: response.role
+                    profile,
+                    role
                 }
             })
+            setInterval(() => {
+                SilentlyReviveAccessToken()
+            }, 585000)
             return true
         }
     }

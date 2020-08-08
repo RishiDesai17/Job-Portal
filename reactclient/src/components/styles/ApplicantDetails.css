@@ -1,0 +1,30 @@
+#profilePic{
+    height: 180px;
+    width: 180px;
+    border-radius: 90px;
+}
+#name{
+    font-family: 'MontserratRegular';
+    font-size: 40px;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+#email{
+    font-family: 'MontserratRegular';
+    font-size: 20px;
+    margin-top: 5px;
+    margin-left: 3px;
+    word-break: break-all;
+}
+@media screen and (max-width: 500px){
+    #profilePic{
+        height: 110px;
+        width: 110px;
+    }
+    #name{
+        font-size: 30px;
+    }
+    #email{
+        font-size: 15px;
+    }
+}

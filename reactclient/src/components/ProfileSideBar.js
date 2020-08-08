@@ -4,17 +4,22 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import PersonIcon from '@material-ui/icons/Person';
+import WorkIcon from '@material-ui/icons/Work';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+// import IconButton from '@material-ui/icons/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import './styles/ProfileSideBar.css';
 
 const drawerWidth = 240;
 
@@ -28,6 +33,10 @@ const useStyles = makeStyles((theme) => ({
       flexShrink: 0,
     },
   },
+  buttons: {
+    color: 'white', 
+    marginBottom: 5,
+  },
   appBar: {
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
@@ -35,13 +44,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    // marginRight: theme.spacing(2),
+    position: 'absolute',
+    left: 15,
+    top: 7,
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
   },
   // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
     backgroundImage: 'url(https://i.pinimg.com/originals/56/3b/f1/563bf185ee38a3b78c53e1e83e370e57.png)',
@@ -76,26 +87,38 @@ const ProfileSideBar = (props) => {
 
     const drawer = (
         <div style={{zIndex: 10}}>
-        {/* <div className={classes.toolbar} /> */}
-        <h1>abcd</h1>
-        <Divider />
-        <List >
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon style={{color: "white"}} /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-            </ListItem>
-            ))}
-        </List>
-        <Divider />
-        <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText style={{color: "white"}} primary={text} />
-            </ListItem>
-            ))}
-        </List>
+            <h1>abcd</h1>
+            <Divider />
+            <List>
+                <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "Profile" && '#009ffd' }} onClick={() => {
+                    props.setCurrent("Profile")
+                    setMobileOpen(false)
+                }}> 
+                    <ListItemIcon> <PersonIcon style={{ color: "white" }} /> </ListItemIcon>
+                    <ListItemText primary='Profile' />
+                </ListItem>
+                <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "My Applications" && '#009ffd' }} onClick={() => {
+                    props.setCurrent("My Applications")
+                    setMobileOpen(false)
+                }}> 
+                    <ListItemIcon> <WorkIcon style={{ color: "white" }} /> </ListItemIcon>
+                    <ListItemText primary='My Applications' />
+                </ListItem>
+                <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "Pre-Interviews" && '#009ffd' }} onClick={() => {
+                    props.setCurrent("Pre-Interviews")
+                    setMobileOpen(false)
+                }}> 
+                    <ListItemIcon> <AssignmentIcon style={{ color: "white" }} /> </ListItemIcon>
+                    <ListItemText primary='Pre-Interviews' />
+                </ListItem>
+                <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "Saved" && '#009ffd' }} onClick={() => {
+                    props.setCurrent("Saved")
+                    setMobileOpen(false)
+                }}> 
+                    <ListItemIcon> <BookmarkIcon style={{ color: "white" }} /> </ListItemIcon>
+                    <ListItemText primary='Saved jobs' />
+                </ListItem>
+            </List>
         </div>
     );
 
@@ -104,50 +127,51 @@ const ProfileSideBar = (props) => {
         return (
             <>
             {/* <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar> */}
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        className={classes.menuButton}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-            {/* //         <Typography variant="h6" noWrap>
-            //             Responsive drawer
-            //         </Typography>
-            //     </Toolbar> */}
-            {/* // </AppBar> */}
+                <Toolbar>
+                      
+                   <Typography variant="h6" noWrap>
+                       Responsive drawer
+                   </Typography>
+               </Toolbar> 
+            </AppBar> */}
+            <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                className={classes.menuButton}
+            >
+                <MenuIcon />
+            </IconButton>
             <nav className={classes.drawer} style={{ backgroundColor: 'red' }} aria-label="mailbox folders">
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Hidden smUp implementation="css">
-                <Drawer
-                    container={container}
-                    variant="temporary"
-                    anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                    ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
-                    }}
-                >
-                    {drawer}
-                </Drawer>
+                    <Drawer
+                        container={container}
+                        variant="temporary"
+                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                        open={mobileOpen}
+                        onClose={handleDrawerToggle}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        ModalProps={{
+                            keepMounted: true, // Better open performance on mobile.
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
                 </Hidden>
                 <Hidden xsDown implementation="css">
-                <Drawer
-                    classes={{
-                    paper: classes.drawerPaper,
-                    }}
-                    variant="permanent"
-                    open
-                >
-                    {drawer}
-                </Drawer>
+                    <Drawer
+                        classes={{
+                        paper: classes.drawerPaper,
+                        }}
+                        variant="permanent"
+                        open
+                    >
+                        {drawer}
+                    </Drawer>
                 </Hidden>
             </nav>
         </>
