@@ -13,18 +13,27 @@
     font-family: 'MontserratRegular';
     font-size: 20px;
     margin-top: 5px;
-    margin-left: 3px;
     word-break: break-all;
 }
+.name-email-container{
+    margin-left: 20px;
+}
+.profileContainer{
+    flex-direction: row;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    margin-top: 25px;
+}
 @media screen and (max-width: 500px){
-    #profilePic{
-        height: 110px;
-        width: 110px;
-    }
-    #name{
-        font-size: 30px;
+    .profileContainer{
+        flex-direction: column;
+        margin-top: 45px;
     }
     #email{
-        font-size: 15px;
+        margin-left: 0;
+    }
+    .name-email-container{
+        margin-left: 0;
     }
 }

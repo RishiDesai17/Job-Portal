@@ -15,7 +15,9 @@ exports.googlelogin = async(req, res) => {
         var st = new Date()
         console.log("x")
         console.log(req.body)
-        const { tokens } = await oauth2Client.getToken(req.body.code)
+        const resp = await oauth2Client.getToken(req.body.code)
+        console.log(resp)
+        const tokens = resp.tokens
         const google_profile = await nodeFetch('https://www.googleapis.com/oauth2/v2/userinfo', {
             method: 'GET',
             headers: {
