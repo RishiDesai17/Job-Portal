@@ -1,6 +1,7 @@
 import axios from 'axios';
 import setAccessToken from '../utils/setAccessToken'
 import SilentlyReviveAccessToken from '../utils/silentlyReviveAccessToken';
+import { getResumeBlobs } from './resume';
 
 export const init = () => async dispatch => {
     try{
@@ -24,10 +25,10 @@ export const init = () => async dispatch => {
                 payload: {
                     isLoggedIn: true,
                     profile,
-                    resumes: profile.resumes,
                     role
                 }
             })
+            dispatch(getResumeBlobs(profile.resumes))
             setInterval(() => {
                 SilentlyReviveAccessToken()
             }, 585000)
