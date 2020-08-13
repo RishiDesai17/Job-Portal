@@ -20,10 +20,11 @@ const Resumes = (props) => {
     useEffect(()=>{
         // console.log(resumes[0])
         // setShit(fn(resumes[0].path))
+        fn(resumes[0])
     },[])
 
     function makeThumb(page) {
-        var vp = page.getViewport({scale:1,rotate:0});
+        var vp = page.getViewport({ scale: 1, rotate: 0 });
         var canvas = document.createElement("canvas");
         canvas.width = canvas.height = 96;
         var scale = Math.min(canvas.width / vp.width, canvas.height / vp.height)
@@ -40,11 +41,13 @@ const Resumes = (props) => {
         // });
       }
 
-    const fn = (src) => {
-        // const doc = await pdfjs.getDocument("https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf").promise
-        // const page = await doc.getPage(1)
-        // console.log(page)
-        // return makeThumb(page)
+    const fn = async() => {
+        const doc = await pdfjs.getDocument("uploads/100041255185678789124/1597332350355My Resume.pdf").promise
+        console.log(doc)
+        const page = await doc.getPage(1)
+        console.log(page)
+        const x = await makeThumb(page)
+        setShit(x)
         // const element = document.createElement('div');
         // const iframe = document.createElement('iframe');
 
@@ -71,18 +74,18 @@ const Resumes = (props) => {
 //     })
 //   .catch(err => console.error(err))
 
-        return (
-            <div>
-                <iframe src="http://localhost:3001/uploads/100041255185678789124/1596919621314My Resume.pdf" width="300" height="300"></iframe>
-            </div>
-        )
+        // return (
+        //     <div>
+        //         <iframe src="http://localhost:3001/uploads/100041255185678789124/1596919621314My Resume.pdf" width="300" height="300"></iframe>
+        //     </div>
+        // )
     }
 
     return (
         <div className="resumes-container">
             <p id="resumes-title">Resumes</p>
             <Grid container>
-                {resumes.length===0 ? <p>Loading Resumes...</p> : resumes.map((resume) => (
+                {/* {resumes.length===0 ? <p>Loading Resumes...</p> : resumes.map((resume) => (
                     <div style={{height: 300, width: 300}}>
                         <Grid item md={4} sm={6} xs={12}>
                             <Document 
@@ -92,10 +95,9 @@ const Resumes = (props) => {
                             </Document>
                         </Grid>
                     </div>
-                ))}
+                ))} */}
             </Grid>
-            {/* {resumes.length!==0 && fn(resumes[0].path)} */}
-            {/* {fn()} */}
+            {/* {shit} */}
         </div>
     )
 }

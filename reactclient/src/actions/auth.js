@@ -17,22 +17,22 @@ export const init = () => async dispatch => {
             }
         })
         console.log(response)
-        if(response.status === 200){
-            const { profile, role, access_token } = response.data
-            setAccessToken(access_token)
-            dispatch({
-                type: 'INIT/LOGIN',
-                payload: {
-                    isLoggedIn: true,
-                    profile,
-                    role
-                }
-            })
+        const { profile, role, access_token } = response.data
+        setAccessToken(access_token)
+        dispatch({
+            type: 'INIT/LOGIN',
+            payload: {
+                isLoggedIn: true,
+                profile,
+                role
+            }
+        })
+        if(role === "user"){
             dispatch(getResumeBlobs(profile.resumes))
-            setInterval(() => {
-                SilentlyReviveAccessToken()
-            }, 585000)
         }
+        setInterval(() => {
+            SilentlyReviveAccessToken()
+        }, 585000)
     }
     catch(err){
         dispatch({
@@ -45,12 +45,13 @@ export const init = () => async dispatch => {
     }
 }
 
-export const login = code => async dispatch => {
+export const login = ({ url, code, emailPassword }) => async dispatch => {
     try{
-        const response = await axios.post(`api/users/googlelogin`, 
-            JSON.stringify({
-                code
-            }),
+        const body = code ? JSON.stringify({
+            code
+        }) : JSON.stringify(emailPassword)
+        const response = await axios.post(url, 
+            body,
             {
                 headers: {
                     'Content-Type': 'application/json'
@@ -58,27 +59,33 @@ export const login = code => async dispatch => {
             }
         )
         console.log(response.data, response.status)
-        if(response.status === 200){
-            const { profile, role, access_token } = response.data
-            setAccessToken(access_token)
-            dispatch({
-                type: 'INIT/LOGIN',
-                payload: {
-                    isLoggedIn: true,
-                    profile,
-                    role
-                }
-            })
-            setInterval(() => {
-                SilentlyReviveAccessToken()
-            }, 585000)
-            return true
+        const { profile, role, access_token } = response.data
+        setAccessToken(access_token)
+        dispatch({
+            type: 'INIT/LOGIN',
+            payload: {
+                isLoggedIn: true,
+                profile,
+                role
+            }
+        })
+        if(role === "user"){
+            dispatch(getResumeBlobs(profile.resumes))
+        }
+        setInterval(() => {
+            SilentlyReviveAccessToken()
+        }, 585000)
+        return { 
+            success: true 
         }
     }
     catch(err){
         console.log(err)
+        return {
+            success: false,
+            error: err.response.data
+        }
     }
-    return false
 }
 
 export const logout = () => async dispatch => {

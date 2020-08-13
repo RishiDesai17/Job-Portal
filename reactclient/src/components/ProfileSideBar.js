@@ -97,27 +97,41 @@ const ProfileSideBar = (props) => {
                     <ListItemIcon> <PersonIcon style={{ color: "white" }} /> </ListItemIcon>
                     <ListItemText primary='Profile' />
                 </ListItem>
-                <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "My Applications" && '#009ffd' }} onClick={() => {
-                    props.setCurrent("My Applications")
-                    setMobileOpen(false)
-                }}> 
-                    <ListItemIcon> <WorkIcon style={{ color: "white" }} /> </ListItemIcon>
-                    <ListItemText primary='My Applications' />
-                </ListItem>
-                <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "Pre-Interviews" && '#009ffd' }} onClick={() => {
-                    props.setCurrent("Pre-Interviews")
-                    setMobileOpen(false)
-                }}> 
-                    <ListItemIcon> <AssignmentIcon style={{ color: "white" }} /> </ListItemIcon>
-                    <ListItemText primary='Pre-Interviews' />
-                </ListItem>
-                <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "Saved" && '#009ffd' }} onClick={() => {
-                    props.setCurrent("Saved")
-                    setMobileOpen(false)
-                }}> 
-                    <ListItemIcon> <BookmarkIcon style={{ color: "white" }} /> </ListItemIcon>
-                    <ListItemText primary='Saved jobs' />
-                </ListItem>
+                { props.role === "user" ?
+                    <>
+                        <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "My Applications" && '#009ffd' }} onClick={() => {
+                            props.setCurrent("My Applications")
+                            setMobileOpen(false)
+                        }}> 
+                            <ListItemIcon> <WorkIcon style={{ color: "white" }} /> </ListItemIcon>
+                            <ListItemText primary='My Applications' />
+                        </ListItem>
+                        <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "Pre-Interviews" && '#009ffd' }} onClick={() => {
+                            props.setCurrent("Pre-Interviews")
+                            setMobileOpen(false)
+                        }}> 
+                            <ListItemIcon> <AssignmentIcon style={{ color: "white" }} /> </ListItemIcon>
+                            <ListItemText primary='Pre-Interviews' />
+                        </ListItem>
+                        <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "Saved" && '#009ffd' }} onClick={() => {
+                            props.setCurrent("Saved")
+                            setMobileOpen(false)
+                        }}> 
+                            <ListItemIcon> <BookmarkIcon style={{ color: "white" }} /> </ListItemIcon>
+                            <ListItemText primary='Saved jobs' />
+                        </ListItem>
+                    </>
+                :
+                    <>
+                        <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "New Job" && '#009ffd' }} onClick={() => {
+                            props.setCurrent("New Job")
+                            setMobileOpen(false)
+                        }}> 
+                            <ListItemIcon> <BookmarkIcon style={{ color: "white" }} /> </ListItemIcon>
+                            <ListItemText primary='New Job' />
+                        </ListItem>
+                    </>
+                }
             </List>
         </div>
     );

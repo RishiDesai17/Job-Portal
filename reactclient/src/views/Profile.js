@@ -46,37 +46,25 @@ const Profile = (props) => {
                     )
             }
         }
+        else{
+            switch(current){
+                case "Profile":
+                    return(
+                        <EmployerDetails profile={profile} />
+                    )
+                case "New Job":
+                    return(
+                        <h1>New Job</h1>
+                    )
+            }
+        }
     }
 
     return (
         <>
-            {/* <Grid container>
-                <Grid item md={2} sm={5} xs={12}>
-                    <ProfileSideBar role={role} current={current} profile={profile} setCurrent={setCurrent} />
-                </Grid>
-                <Grid item md={10} sm={7} xs={12}>
-                    { role === "employer" ? 
-                        <>
-                            <EmployerDetails profile={profile} /> 
-                        </>
-                    : 
-                        <>
-                            {/* {pages()} 
-                        </> 
-                    }
-                </Grid>
-            </Grid> */}
             <div style={{display: 'flex'}}>
                 <ProfileSideBar role={role} current={current} profile={profile} setCurrent={setCurrent} />
-                { role === "employer" ? 
-                        <>
-                            <EmployerDetails profile={profile} /> 
-                        </>
-                    : 
-                        <>
-                            {pages()} 
-                        </> 
-                    }
+                {pages()}
             </div>
             
             <div style={{ position: 'absolute', right: 15, top: 15 }}>

@@ -5,29 +5,45 @@ const { generateTokens } = require('../utils/token')
 
 exports.login = async(req,res) => {
     try{
-        const employer = await Employer.find({ email: req.body.email }).limit(1);
+        const employer = await Employer.find({ email: req.body.email }).select("+password").limit(1);
         if(employer.length === 0){
+            return res.status(404).json({
+                NOT_FOUND: 'This account does not exist'
+            })
+        }
+        let employerData = employer[0]
+        if(!employerData.confirmed){
             return res.status(401).json({
-                message: 'Authorization failed'
+                UNAPPROVED: "Your account hasn't been approved yet"
             })
         }
-        if(!employer.confirmed){
-            return res.json({
-                message: "Your account hasn't been approved yet"
+        const isValid = await bcrypt.compare(req.body.password, employerData.password)
+        if(!isValid){
+            return res.status(401).json({
+                UNAUTHORIZED: 'Invalid credentials'
             })
         }
-        const result = await bcrypt.compare(req.body.password, user[0].password)
-        const tokenpair = await generateTokens(employer._id, 'employer')
+        employerData.password = undefined
+        const tokenpair = await generateTokens(employerData._id, 'employer')
+        const dt = new Date()
+        res.cookie('job_portal_token', tokenpair[1], {
+            httpOnly: true,
+            sameSite: true,
+            // path: '/refresh',
+            expires: new Date(dt.setMonth(dt.getMonth()+6)),
+            secure: false
+        })
         return res.status(200).json({
             message: 'Authorization successful',
-            employer,
+            profile: employerData,
+            role: 'employer',
             access_token: tokenpair[0]
         })
     }
     catch(err){
         console.log(err)
-        res.status(401).json({
-            message: 'Authorization failed'
+        res.status(500).json({
+            SOMETHING_WENT_WRONG: 'Something went wrong, Please try again'
         })
     }
 }
