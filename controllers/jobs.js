@@ -4,9 +4,19 @@ const User = require("../models/users");
 
 exports.getAllJobs = async(req,res) => {
     try{
-        const jobs = await Job.find().populate('employer', 'name logo')
+        let pageNo = parseInt(req.query.pageNo)
+        // let size = parseInt(req.query.size)
+        let size = 25
+        let query = {}
+        query.skip = size * (pageNo - 1)
+        query.limit = size
+        const count = await Job.countDocuments();
+        const jobs = await Job.find({},{},query).populate('employer', 'name logo');
+        let pages = Math.ceil(count / size)
+        // const jobs = await Job.find().populate('employer', 'name logo')
         return res.status(200).json({
-            jobs
+            jobs,
+            pages
         })
     }
     catch(err){
