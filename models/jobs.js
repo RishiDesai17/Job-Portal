@@ -26,6 +26,11 @@ const jobSchema = new mongoose.Schema({
         type: String,
         required: true
     }],
+    domains: {
+        type: String,
+        required: true,
+        ref: 'Domain'
+    },
     skills: [{
         type: String,
         required: true

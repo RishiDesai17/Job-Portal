@@ -26,7 +26,7 @@ const EmployerDashboard = (props) => {
                     <div className={classes.profile}>
                         <h1>Hi</h1>
                     </div>
-                        
+                    
                     
                 </main>
             </div>

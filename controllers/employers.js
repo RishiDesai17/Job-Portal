@@ -65,14 +65,14 @@ exports.register = async(req,res) => {
             about, 
             contact_no
         }).save()
-        return res.status(200).json({
+        return res.status(201).json({
             message: 'Thank you for choosing us! Our officials will contact you soon to confirm your registration'
         })
     }
     catch(err){
         console.log(err)
         return res.status(500).json({
-            message: 'Something went wrong'
+            SOMETHING_WENT_WRONG: 'Something went wrong, Please try again'
         })
     }
 }
