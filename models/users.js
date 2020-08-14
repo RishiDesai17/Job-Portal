@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const arrayLimit = (arr) => {
-    return arr.length <= 5
+    return arr.length <= 5;
 }
 
 const userSchema = new mongoose.Schema({
@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
         type: [{
             type: String,
         }],
-        validate: arrayLimit
+        validate: [arrayLimit, '{PATH} exceeds the limit of 5']
     },
     jobsApplied: [{
         type: mongoose.Schema.Types.ObjectId,
