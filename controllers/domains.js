@@ -18,7 +18,7 @@ exports.getDomains = async(req,res) => {
 
 exports.newDomain = async(req,res) => {
     try{
-        if(req.userData.role !== "admin"){
+        if(req.userData.role !== "employer"){
             return res.status(401).json({
                 UNAUTHORIZED: 'You are not allowed to perform this action'
             })

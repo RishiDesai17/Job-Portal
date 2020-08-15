@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import './styles/Resumes.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-console.log(pdfjs)
+// console.log(pdfjs)
 
 const Resumes = (props) => {
     const [numPages, setNumPages] = useState(null);

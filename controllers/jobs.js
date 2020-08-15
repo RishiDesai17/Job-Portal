@@ -4,19 +4,19 @@ const User = require("../models/users");
 
 exports.getAllJobs = async(req,res) => {
     try{
-        let pageNo = parseInt(req.query.pageNo)
+        let pageNo = parseInt(req.query.pageno)
         // let size = parseInt(req.query.size)
-        let size = 25
+        let size = 1
         let query = {}
         query.skip = size * (pageNo - 1)
         query.limit = size
         const count = await Job.countDocuments();
-        const jobs = await Job.find({},{},query).populate('employer', 'name logo');
+        const jobs = await Job.find({}, {}, query).populate('employer', 'name logo').populate('domain');
         let pages = Math.ceil(count / size)
-        // const jobs = await Job.find().populate('employer', 'name logo')
         return res.status(200).json({
             jobs,
-            pages
+            pages,
+            count
         })
     }
     catch(err){
@@ -45,7 +45,7 @@ exports.getJobsByDomain = async(req,res) => {
 exports.createJob = async(req,res) => {
     try{
         const { id, role } = req.userData
-        const { title, positions, salary, description, perks, skills, applicationDeadline } = req.body
+        const { title, positions, salary, description, domain, perks, skills, applicationDeadline } = req.body
         if(role !== 'employer'){
             return res.status(401).json({
                 UNAUTHORIZED: 'You are not allowed to perform this action'
@@ -57,6 +57,7 @@ exports.createJob = async(req,res) => {
             positions, 
             salary, 
             description, 
+            domain,
             perks,
             skills,
             applicationDeadline

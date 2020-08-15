@@ -21,10 +21,14 @@ app.use(cookieParser());
 const userRoutes = require('./routes/users');
 const tokenRoutes = require('./routes/refreshAccessTokens');
 const employerRoutes = require('./routes/employers');
+const jobRoutes = require('./routes/jobs');
+const domainRoutes = require('./routes/domains');
 
 app.use('/api/users', userRoutes);
 app.use('/api/refresh', tokenRoutes);
 app.use('/api/employers', employerRoutes);
+app.use('/api/jobs', jobRoutes);
+app.use('/api/domains', domainRoutes);
 
 if(process.env.NODE_ENV === "dev"){
   console.log('dev')

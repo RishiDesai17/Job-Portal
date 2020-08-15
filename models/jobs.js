@@ -26,8 +26,8 @@ const jobSchema = new mongoose.Schema({
         type: String,
         required: true
     }],
-    domains: {
-        type: String,
+    domain: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Domain'
     },
@@ -41,8 +41,7 @@ const jobSchema = new mongoose.Schema({
     },
     preInterview: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'PreInterview',
-        default: false
+        ref: 'PreInterview'
     },
     applicants: [{
         type: mongoose.Schema.Types.ObjectId,

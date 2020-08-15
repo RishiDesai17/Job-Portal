@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useWillMount } from './custom hooks/useWillMount';
 import ProtectedRoute from './protectedRoute/protectedRoute';
 import Home from './views/Home';
+import Jobs from './views/Jobs';
 import Login from './views/Login';
 import Authenticate from './views/Authenticate';
 import Profile from './views/Profile';
@@ -22,6 +23,7 @@ const App = () => {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/jobs" component={Jobs} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/auth" component={Authenticate} />
             <ProtectedRoute exact path="/profile" component={Profile} />

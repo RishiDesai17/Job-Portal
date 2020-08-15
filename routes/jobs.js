@@ -3,9 +3,9 @@ const router = express.Router();
 const JobsController = require('../controllers/jobs');
 const checkAuth = require('../middleware/check-auth');
 
-router.get('/jobs', JobsController.getAllJobs)
+router.get('/', JobsController.getAllJobs)
 
-router.get('/jobs/:domain', JobsController.getAllJobs)
+router.get('/:domain', JobsController.getAllJobs)
 
 router.post('/createjob', checkAuth, JobsController.createJob);
 
