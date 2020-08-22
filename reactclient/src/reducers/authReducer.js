@@ -1,3 +1,5 @@
+import { INIT_LOGIN, LOGOUT } from "../actions/types"
+
 const INIT_STATE = {
     isLoggedIn: null,
     profile: null,
@@ -7,12 +9,12 @@ const INIT_STATE = {
 const AuthReducer = (state = INIT_STATE, action) => {
     const { type, payload } = action
     switch(type){
-        case 'INIT/LOGIN':
+        case INIT_LOGIN:
             return {
                 ...state,
                 ...payload
             }
-        case 'LOGOUT':
+        case LOGOUT:
             return {
                 ...INIT_STATE,
                 isLoggedIn: false

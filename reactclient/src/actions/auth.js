@@ -2,6 +2,7 @@ import axios from 'axios';
 import setAccessToken from '../utils/setAccessToken'
 import SilentlyReviveAccessToken from '../utils/silentlyReviveAccessToken';
 import { getResumeBlobs } from './resume';
+import { INIT_LOGIN, LOGOUT } from './types';
 
 export const init = () => async dispatch => {
     try{
@@ -20,7 +21,7 @@ export const init = () => async dispatch => {
         const { profile, role, access_token } = response.data
         setAccessToken(access_token)
         dispatch({
-            type: 'INIT/LOGIN',
+            type: INIT_LOGIN,
             payload: {
                 isLoggedIn: true,
                 profile,
@@ -36,7 +37,7 @@ export const init = () => async dispatch => {
     }
     catch(err){
         dispatch({
-            type: 'INIT/LOGIN',
+            type: INIT_LOGIN,
             payload: {
                 isLoggedIn: false
             }
@@ -62,7 +63,7 @@ export const login = ({ url, code, emailPassword }) => async dispatch => {
         const { profile, role, access_token } = response.data
         setAccessToken(access_token)
         dispatch({
-            type: 'INIT/LOGIN',
+            type: INIT_LOGIN,
             payload: {
                 isLoggedIn: true,
                 profile,
@@ -94,7 +95,7 @@ export const logout = () => async dispatch => {
         console.log(response)
         if(response.status === 200){
             dispatch({
-                type: 'LOGOUT'
+                type: LOGOUT
             })
             return true
         }

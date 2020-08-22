@@ -1,3 +1,5 @@
+import { FETCH_RESUMES, ADDRESUME } from "../actions/types"
+
 const INIT_STATE = {
     resumes: []
 }
@@ -10,12 +12,12 @@ const ResumeReducer = (state = INIT_STATE, action) => {
         //         ...state,
         //         resumes: payload
         //     }
-        case "FETCH_RESUMES":
+        case FETCH_RESUMES:
             return {
                 ...state,
                 resumes: payload
             }
-        case 'ADDRESUME':
+        case ADDRESUME:
             // let x = state.resumes
             // x.push(payload.s)
             console.log(payload.s)

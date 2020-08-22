@@ -29,10 +29,7 @@ const Jobs = (props) => {
         <>
             <InfiniteScroll
                 dataLength={jobsState.jobs.length}
-                next={getListofJobs/*() => {
-                    console.log("next")
-                    getListofJobs(currentPage.current + 1)
-                }*/}
+                next={getListofJobs}
                 height={80}
                 hasMore={jobsState.jobs.length !== jobsState.numJobs}
                 loader={<h4>Loading...</h4>}

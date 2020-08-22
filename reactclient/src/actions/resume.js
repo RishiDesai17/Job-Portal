@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { Document, Page, pdfjs } from 'react-pdf';
+import { FETCH_RESUMES } from './types';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export const getResumeBlobs = (resumes) => async dispatch => {
     const blobsAndPaths = await Promise.all(resumes.map((path) => blobUtil(path)))
     dispatch({
-        type: 'FETCH_RESUMES',
+        type: FETCH_RESUMES,
         payload: blobsAndPaths
     })
     // fn()
