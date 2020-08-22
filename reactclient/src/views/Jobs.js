@@ -29,8 +29,9 @@ const Jobs = (props) => {
         <>
             <InfiniteScroll
                 dataLength={jobsState.jobs.length}
+                style={{overflow:'scroll'}}
                 next={getListofJobs}
-                height={80}
+                height={280}
                 hasMore={jobsState.jobs.length !== jobsState.numJobs}
                 loader={<h4>Loading...</h4>}
                 endMessage={<p>Bas hogaya</p>}
