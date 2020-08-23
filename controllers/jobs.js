@@ -6,12 +6,12 @@ exports.getAllJobs = async(req,res) => {
     try{
         let pageNo = parseInt(req.query.pageno)
         // let size = parseInt(req.query.size)
-        let size = 1
+        let size = 10
         let query = {}
         query.skip = size * (pageNo - 1)
         query.limit = size
         const count = await Job.countDocuments();
-        const jobs = await Job.find({}, {}, query).populate('employer', 'name logo').populate('domain');
+        const jobs = await Job.find({}, {}, query).select(['title', 'domain', 'employer', 'salary', 'applicationDeadline']).populate('employer', 'name logo').populate('domain');
         let pages = Math.ceil(count / size)
         return res.status(200).json({
             jobs,
@@ -39,6 +39,15 @@ exports.getJobsByDomain = async(req,res) => {
         return res.status(500).json({
             SOMETHING_WENT_WRONG: 'Something went wrong, Please try again'
         })
+    }
+}
+
+exports.getJob = async() => {
+    try{
+        const job = await Job.findById(req.query.jobid)
+    }
+    catch(err){
+
     }
 }
 

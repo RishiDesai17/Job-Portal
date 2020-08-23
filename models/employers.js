@@ -12,7 +12,7 @@ const employerSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        select: false,
+        select: false
     },
     logo: {
         type: String
