@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const domainSchema = new mongoose.Schema({
-    domain: {
+    name: {
         type: String,
         required: true
     }

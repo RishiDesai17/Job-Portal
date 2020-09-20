@@ -8,6 +8,7 @@ import { logout } from '../actions/auth';
 import { useHistory } from 'react-router-dom';
 import HomeIcon from '@material-ui/icons/Home';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import NewJob from '../components/NewJob';
 
 const Profile = (props) => {
     const profile = useSelector(state => state.AuthReducer.profile, shallowEqual)
@@ -54,7 +55,7 @@ const Profile = (props) => {
                     )
                 case "New Job":
                     return(
-                        <h1>New Job</h1>
+                        <NewJob />
                     )
             }
         }

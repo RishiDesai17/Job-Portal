@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     },
     profile: {
         [theme.breakpoints.up('sm')]: {
-            textAlign:'left'
+            textAlign: 'left'
         }
     },
     toolbar: theme.mixins.toolbar,
@@ -22,7 +22,7 @@ const EmployerDashboard = (props) => {
     return (
         <Container>
             <div style={{ display: 'flex', alignItems:'center', justifyContent:'center' }}>
-                <main className={classes.content + " content"} style={{ alignItems:'center',justifyContent:'center' }}>
+                <main className={classes.content + " content"} style={{ alignItems:'center', justifyContent:'center' }}>
                     <div className={classes.profile}>
                         <h1>Hi</h1>
                     </div>
