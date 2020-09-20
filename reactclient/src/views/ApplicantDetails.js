@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Resumes from './Resumes';
+import Resumes from '../components/Resumes';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import './styles/ApplicantDetails.css';

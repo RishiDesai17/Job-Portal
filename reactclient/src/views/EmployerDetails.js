@@ -15,9 +15,13 @@ const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
 }));
 
-const EmployerDashboard = (props) => {
+const EmployerDashboard = ({ profile }) => {
     const [state, setState] = useState()
     const classes = useStyles();
+
+    useEffect(() => {
+        console.log(profile)
+    }, [])
 
     return (
         <Container>

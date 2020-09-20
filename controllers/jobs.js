@@ -42,12 +42,17 @@ exports.getJobsByDomain = async(req,res) => {
     }
 }
 
-exports.getJob = async() => {
+exports.getJob = async(req,res) => {
     try{
-        const job = await Job.findById(req.query.jobid)
+        const job = await Job.findById(req.params.jobid)
+        return res.status(200).json({
+            job
+        })
     }
     catch(err){
-
+        return res.status(500).json({
+            SOMETHING_WENT_WRONG: 'Something went wrong, Please try again'
+        })
     }
 }
 

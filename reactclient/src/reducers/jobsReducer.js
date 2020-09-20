@@ -1,8 +1,9 @@
-import { GET_JOBS } from "../actions/types"
+import { GET_JOBS, GET_USER_JOBS } from "../actions/types"
 
 const INIT_STATE = {
     jobs: [],
-    numJobs: 0
+    numJobs: 0,
+    userJobs: null
 }
 
 const JobsReducer = (state = INIT_STATE, action) => {
@@ -13,6 +14,11 @@ const JobsReducer = (state = INIT_STATE, action) => {
                 ...state,
                 jobs: [...state.jobs, ...payload.jobs],
                 numJobs: payload.count
+            }
+        case GET_USER_JOBS:
+            return {
+                ...state,
+                userJobs: payload
             }
         default:
             return state

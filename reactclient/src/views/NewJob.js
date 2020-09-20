@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Container, Grid } from '@material-ui/core';
+import { Button, Container, Grid, LinearProgress } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -11,6 +11,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import { toast } from "react-toastify";
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const NewJob = props => {
+const NewJob = ({ setCurrent }) => {
     const title = useRef("")
     const description = useRef("")
     const salary = useRef(0)
@@ -51,6 +52,7 @@ const NewJob = props => {
     const [skills, setSkills] = useState([])
     const [selectedDomain, setSelectedDomain] = useState("")
     const [domains, setDomains] = useState([])
+    const [progress, setProgress] = useState(false)
 
     const classes = useStyles()
 
@@ -87,6 +89,7 @@ const NewJob = props => {
 
     const submit = async() => {
         try{
+            setProgress(true)
             const response = await axios.post('api/jobs/createjob',
                 JSON.stringify({
                     title: title.current,
@@ -104,7 +107,17 @@ const NewJob = props => {
                     }
                 }
             )
-            alert("Job created")
+            setProgress(false)
+            setCurrent("Profile")
+            toast.success('Job Created', {
+                position: "top-center",
+                autoClose: 3000,
+                // hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
         catch(err){
             alert("Something went wrong")
@@ -113,6 +126,7 @@ const NewJob = props => {
 
     return (
         <Container>
+            {progress && <LinearProgress />}
             <main className={classes.content}>
                 <form className={classes.root} noValidate autoComplete="off">
                     <Grid container>
@@ -198,7 +212,7 @@ const NewJob = props => {
                                 </FormControl>
                             </div>
                             <div className={classes.input}>
-                                <FormControl variant="outlined" className={classes.formControl}>
+                                <FormControl variant="outlined" className={classes.formControl + " " + classes.input}>
                                     <InputLabel id="demo-simple-select-outlined-label">Domain</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-outlined-label"
@@ -209,7 +223,7 @@ const NewJob = props => {
                                         }}
                                         label="Domain"
                                     >
-                                        {domains.map(domain => (
+                                        {domains.length === 0 ? <p>Loading Domains...</p> : domains.map(domain => (
                                             <MenuItem value={domain._id}>{domain.name}</MenuItem>
                                         ))}
                                     </Select>
@@ -226,4 +240,4 @@ const NewJob = props => {
     )
 }
 
-export default NewJob
+export default React.memo(NewJob)

@@ -17,7 +17,7 @@ const Home = (props) => {
             :
                 <div>
                     {isLoggedIn ? 
-                        <Link to="/profile">Profile</Link> 
+                        <Link to="/dashboard">Dashboard</Link>
                     : 
                         <Link to="/login">login</Link>
                     }

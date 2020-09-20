@@ -1,16 +1,18 @@
 import React, { memo, useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import ApplicantDetails from '../components/ApplicantDetails';
-import EmployerDetails from '../components/EmployerDetails';
+import ApplicantDetails from './ApplicantDetails';
+import EmployerDetails from './EmployerDetails';
 import ProfileSideBar from '../components/ProfileSideBar';
+import Toast from '../components/Toast';
 import Grid from '@material-ui/core/Grid'
 import { logout } from '../actions/auth';
 import { useHistory } from 'react-router-dom';
 import HomeIcon from '@material-ui/icons/Home';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import NewJob from '../components/NewJob';
+import NewJob from './NewJob';
+import MyJobs from './MyJobs';
 
-const Profile = (props) => {
+const Dashboard = (props) => {
     const profile = useSelector(state => state.AuthReducer.profile, shallowEqual)
     const role = useSelector(state => state.AuthReducer.role, shallowEqual)
     const [current, setCurrent] = useState("Profile")
@@ -55,7 +57,11 @@ const Profile = (props) => {
                     )
                 case "New Job":
                     return(
-                        <NewJob />
+                        <NewJob setCurrent={setCurrent} />
+                    )
+                case "My Jobs":
+                    return(
+                        <MyJobs jobs={profile.jobs} />
                     )
             }
         }
@@ -72,8 +78,10 @@ const Profile = (props) => {
                 <HomeIcon style={{ fontSize: 30, margin: 3 }} />
                 <ExitToAppIcon onClick={Logout} style={{ fontSize: 30, margin: 3, cursor: 'pointer' }} />
             </div>
+
+            <Toast />
         </>
     )
 }
 
-export default memo(Profile)
+export default memo(Dashboard)

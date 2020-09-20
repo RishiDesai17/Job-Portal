@@ -5,7 +5,9 @@ const checkAuth = require('../middleware/check-auth');
 
 router.get('/', JobsController.getAllJobs)
 
-router.get('/:domain', JobsController.getAllJobs)
+router.get('/:jobid', JobsController.getJob)
+
+router.get('/:domain', JobsController.getJobsByDomain)
 
 router.post('/createjob', checkAuth, JobsController.createJob);
 

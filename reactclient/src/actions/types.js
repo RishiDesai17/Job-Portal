@@ -1,5 +1,6 @@
 export const INIT_LOGIN = 'INIT/LOGIN'
 export const LOGOUT = 'LOGOUT'
 export const GET_JOBS = 'GET_JOBS'
+export const GET_USER_JOBS = 'GET_USER_JOBS'
 export const FETCH_RESUMES = 'FETCH_RESUMES'
 export const ADDRESUME = 'ADDRESUME'

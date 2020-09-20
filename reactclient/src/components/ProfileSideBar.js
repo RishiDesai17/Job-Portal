@@ -8,7 +8,6 @@ import PersonIcon from '@material-ui/icons/Person';
 import WorkIcon from '@material-ui/icons/Work';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-// import IconButton from '@material-ui/icons/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -19,6 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import './styles/ProfileSideBar.css';
 
 const drawerWidth = 240;
@@ -80,6 +80,7 @@ const ProfileSideBar = (props) => {
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = useState(false);
+    const history = useHistory()
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -101,6 +102,7 @@ const ProfileSideBar = (props) => {
                     <>
                         <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "My Applications" && '#009ffd' }} onClick={() => {
                             props.setCurrent("My Applications")
+                            // history.push('/')
                             setMobileOpen(false)
                         }}> 
                             <ListItemIcon> <WorkIcon style={{ color: "white" }} /> </ListItemIcon>
@@ -108,6 +110,7 @@ const ProfileSideBar = (props) => {
                         </ListItem>
                         <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "Pre-Interviews" && '#009ffd' }} onClick={() => {
                             props.setCurrent("Pre-Interviews")
+                            // history.push('/pre')
                             setMobileOpen(false)
                         }}> 
                             <ListItemIcon> <AssignmentIcon style={{ color: "white" }} /> </ListItemIcon>
@@ -124,11 +127,19 @@ const ProfileSideBar = (props) => {
                 :
                     <>
                         <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "New Job" && '#009ffd' }} onClick={() => {
-                            props.setCurrent("New Job")
+                            // props.setCurrent("New Job")
+                            history.push("/newjob")
                             setMobileOpen(false)
                         }}> 
                             <ListItemIcon> <BookmarkIcon style={{ color: "white" }} /> </ListItemIcon>
                             <ListItemText primary='New Job' />
+                        </ListItem>
+                        <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "My Jobs" && '#009ffd' }} onClick={() => {
+                            props.setCurrent("My Jobs")
+                            setMobileOpen(false)
+                        }}> 
+                            <ListItemIcon> <BookmarkIcon style={{ color: "white" }} /> </ListItemIcon>
+                            <ListItemText primary='My Jobs' />
                         </ListItem>
                     </>
                 }
