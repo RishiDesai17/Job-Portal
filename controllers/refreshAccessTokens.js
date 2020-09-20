@@ -15,7 +15,7 @@ exports.refresh = async(req,res) => {
         })
         if(req.body.getprofile){
             let profile;
-            if(role == 'employer'){
+            if(role === 'employer'){
                 profile = await Employer.findById(id)
                 delete profile.password
             }

@@ -10,7 +10,8 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { init } from './actions/auth';
 import './App.css';
-import NewJob1 from './views/NewJob1';
+import NewJob from './views/NewJob';
+import MyJobs from './views/MyJobs';
 
 const App = () => {
   useEffect(() => {
@@ -27,7 +28,8 @@ const App = () => {
             <Route exact path="/login" component={Login} />
             <Route exact path="/auth" component={Authenticate} />
             <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-            <ProtectedRoute exact path="/newjob" component={NewJob1} />
+            <ProtectedRoute exact path="/dashboard/newjob" component={NewJob} />
+            <ProtectedRoute exact path="/dashboard/myjobs" component={MyJobs} />
           </Switch>
         </BrowserRouter>
       </Provider>

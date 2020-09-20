@@ -1,87 +1,80 @@
-import React, { memo, useState, useEffect } from 'react';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import ApplicantDetails from './ApplicantDetails';
-import EmployerDetails from './EmployerDetails';
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from "react-redux";
 import ProfileSideBar from '../components/ProfileSideBar';
 import Toast from '../components/Toast';
-import Grid from '@material-ui/core/Grid'
-import { logout } from '../actions/auth';
-import { useHistory } from 'react-router-dom';
-import HomeIcon from '@material-ui/icons/Home';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import NewJob from './NewJob';
-import MyJobs from './MyJobs';
+import Resumes from '../components/Resumes';
+import DashboardIconSet from "../components/DashboardIconSet";
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import './styles/ApplicantDetails.css';
 
-const Dashboard = (props) => {
-    const profile = useSelector(state => state.AuthReducer.profile, shallowEqual)
+const useStyles = makeStyles((theme) => ({    
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3)
+    },
+    profile: {
+        [theme.breakpoints.up('sm')]: {
+            textAlign: 'left',
+            justifyContent: 'flex-start'
+        }
+    },
+    toolbar: theme.mixins.toolbar,
+}));
+
+const Dashboard = props => {
     const role = useSelector(state => state.AuthReducer.role, shallowEqual)
-    const [current, setCurrent] = useState("Profile")
-    const dispatch = useDispatch()
-    const history = useHistory();
+    const profile = useSelector(state => state.AuthReducer.profile, shallowEqual)
 
-    const Logout = async() => {
-        if(await dispatch(logout())){
-            history.replace('/')
+    const classes = useStyles();
+
+    const details = () => {
+        if(role === "employer"){
+            return (
+                <Container>
+                    <div style={{ display: 'flex', alignItems:'center', justifyContent:'center' }}>
+                        <main className={classes.content + " content"} style={{ alignItems:'center', justifyContent:'center' }}>
+                            <div className={classes.profile}>
+                                <h1>Hi</h1>
+                            </div>
+                        </main>
+                    </div>
+                </Container>
+            )
         }
-        else{
-            alert("Couldn't log you out, Please try again")
-        }
+        
+        return (
+            <Container>
+                <div style={{ display: 'flex' }}>
+                    <main className={classes.content + " content"}>
+                        <div className={classes.profile + " profileContainer"}>
+                            <div>
+                                <img src={profile.profile_pic} id="profilePic" />
+                            </div>
+                            <div className="name-email-container">
+                                <p id="name">{profile.name.toUpperCase()}</p>
+                                <p id="email">{profile.email}</p>
+                            </div>
+                        </div>
+                        <Resumes resumes={profile.resumes} id={profile._id} />
+                    </main>
+                </div>
+            </Container>
+        )
     }
 
-    const pages = () => {
-        if(role === "user"){
-            switch(current){
-                case "Profile":
-                    return(
-                        <ApplicantDetails profile={profile} />
-                    )
-                case "My Applications":
-                    return(
-                        <h1>applications</h1>
-                    )
-                case "Pre-Interviews":
-                    return(
-                        <h1>Pre Interviews</h1>
-                    )
-                case "Saved":
-                    return(
-                        <h1>Save</h1>
-                    )
-            }
-        }
-        else{
-            switch(current){
-                case "Profile":
-                    return(
-                        <EmployerDetails profile={profile} />
-                    )
-                case "New Job":
-                    return(
-                        <NewJob setCurrent={setCurrent} />
-                    )
-                case "My Jobs":
-                    return(
-                        <MyJobs jobs={profile.jobs} />
-                    )
-            }
-        }
-    }
-
-    return (
+    return(
         <>
             <div style={{display: 'flex'}}>
-                <ProfileSideBar role={role} current={current} profile={profile} setCurrent={setCurrent} />
-                {pages()}
+                <ProfileSideBar current="Dashboard" />
+                {details()}
             </div>
             
-            <div style={{ position: 'absolute', right: 15, top: 15 }}>
-                <HomeIcon style={{ fontSize: 30, margin: 3 }} />
-                <ExitToAppIcon onClick={Logout} style={{ fontSize: 30, margin: 3, cursor: 'pointer' }} />
-            </div>
+            <DashboardIconSet />
 
             <Toast />
         </>
     )
 }
 
-export default memo(Dashboard)
+export default Dashboard

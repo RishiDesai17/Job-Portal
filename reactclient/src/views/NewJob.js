@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ProfileSideBar from '../components/ProfileSideBar';
 import TextField from '@material-ui/core/TextField';
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,6 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { toast } from "react-toastify";
 import axios from 'axios';
+import DashboardIconSet from '../components/DashboardIconSet';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,6 +57,8 @@ const NewJob = ({ setCurrent }) => {
     const [domains, setDomains] = useState([])
     const [progress, setProgress] = useState(false)
 
+    const role = useSelector(state => state.AuthReducer.role, shallowEqual)
+
     const classes = useStyles()
 
     const handleDelete = index => {
@@ -65,7 +70,7 @@ const NewJob = ({ setCurrent }) => {
 
     const getDomains = async() => {
         try{
-            const response = await axios.get("api/domains/")
+            const response = await axios.get("/api/domains/")
             console.log(response.data)
             setDomains(response.data.domains)
         }
@@ -125,118 +130,128 @@ const NewJob = ({ setCurrent }) => {
     }
 
     return (
-        <Container>
-            {progress && <LinearProgress />}
-            <main className={classes.content}>
-                <form className={classes.root} noValidate autoComplete="off">
-                    <Grid container>
-                        <Grid item md={6} sm={12} xs={12}>
-                            <div className={classes.input}>
-                                <TextField id="outlined-basic" label="Title" variant="outlined" onChange={e => {
-                                    title.current = e.target.value
-                                }} />
-                            </div>
-                            <div className={classes.input}>
-                                <TextField
-                                    id="outlined-multiline-static"
-                                    label="Description"
-                                    multiline
-                                    rows={5}
-                                    variant="outlined"
-                                    onChange={e => {
-                                        description.current = e.target.value
-                                    }}
-                                />
-                            </div>
-                            <div className={classes.input}>
-                                <TextField id="outlined-number" label="Salary per month" type="number" variant="outlined" defaultValue={salary.current} onChange={e => {
-                                    salary.current = e.target.value
-                                }} />
-                            </div>
-                            <div className={classes.input}>
-                                <TextField id="outlined-number" label="No. of Positions" type="number" variant="outlined" onChange={e => {
-                                    num_positions.current = e.target.value
-                                }} />
-                            </div>
-                            <div className={classes.input}>
-                                <TextField
-                                    id="date"
-                                    label="Application Deadline"
-                                    type="date"
-                                    style={{
-                                        width: 200
-                                    }}
-                                    defaultValue={deadline.current}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    onChange={e => {
-                                        deadline.current = e.target.valueAsDate.toISOString()
-                                    }}
-                                />
-                            </div>
-                        </Grid>
-                        <Grid item md={6} sm={12} xs={12}>
-                            <div className={classes.input}>
-                                <TextField id="outlined-basic" label="Add Skill" variant="outlined" value={skill} onChange={e => {
-                                    // skill.current = e.target.value
-                                    setSkill(e.target.value)
-                                }} />
-                                {skill !== "" && <Button variant="contained" color="secondary" onClick={() => {
-                                    setSkills(skills => [...skills, skill])
-                                    setSkill("")
-                                }}>ADD</Button>}
-                            </div>
-                            {skills.map((skill, index) => (
-                                <Chip label={skill} onDelete={() => handleDelete(index)} color="secondary" />
-                            ))}
-                            <div className={classes.input}>
-                                <FormControl component="fieldset">
-                                    <FormLabel component="legend">Perks</FormLabel>
-                                    <FormGroup aria-label="perks-checkboxes">
-                                        {["5 days a week", "Free transportation", "Free food", "Unlimited PTO", "Health insurance covered"].map(perk => (
-                                            <FormControlLabel
-                                                control = {
-                                                    <Checkbox color="primary" onChange={e => {
-                                                        perksHandler({ 
-                                                            perk,
-                                                            checked: e.target.checked,
-                                                        })
-                                                    }} />
-                                                }
-                                                label={perk}
-                                                labelPlacement="end"
-                                            />
-                                        ))}
-                                    </FormGroup>
-                                </FormControl>
-                            </div>
-                            <div className={classes.input}>
-                                <FormControl variant="outlined" className={classes.formControl + " " + classes.input}>
-                                    <InputLabel id="demo-simple-select-outlined-label">Domain</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-outlined-label"
-                                        id="demo-simple-select-outlined"
-                                        value={selectedDomain}
-                                        onChange={e => {
-                                            setSelectedDomain(e.target.value)
-                                        }}
-                                        label="Domain"
-                                    >
-                                        {domains.length === 0 ? <p>Loading Domains...</p> : domains.map(domain => (
-                                            <MenuItem value={domain._id}>{domain.name}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </div>
-                        </Grid>
-                    </Grid>
-                    <Button variant="contained" color="primary" onClick={submit}>
-                        CREATE JOB
-                    </Button>
-                </form>
-            </main>
-        </Container>
+        <>
+            <div style={{display: 'flex'}}>
+                <ProfileSideBar current="New Job" />
+                <Container>
+                    {progress && <LinearProgress />}
+                    <main className={classes.content}>
+                        <form className={classes.root} noValidate autoComplete="off">
+                            <Grid container>
+                                <Grid item md={6} sm={12} xs={12}>
+                                    <div className={classes.input}>
+                                        <TextField id="outlined-basic" label="Title" variant="outlined" onChange={e => {
+                                            title.current = e.target.value
+                                        }} />
+                                    </div>
+                                    <div className={classes.input}>
+                                        <TextField
+                                            id="outlined-multiline-static"
+                                            label="Description"
+                                            multiline
+                                            rows={5}
+                                            variant="outlined"
+                                            onChange={e => {
+                                                description.current = e.target.value
+                                            }}
+                                        />
+                                    </div>
+                                    <div className={classes.input}>
+                                        <TextField id="outlined-number" label="Salary per month" type="number" variant="outlined" defaultValue={salary.current} onChange={e => {
+                                            salary.current = e.target.value
+                                        }} />
+                                    </div>
+                                    <div className={classes.input}>
+                                        <TextField id="outlined-number" label="No. of Positions" type="number" variant="outlined" onChange={e => {
+                                            num_positions.current = e.target.value
+                                        }} />
+                                    </div>
+                                    <div className={classes.input}>
+                                        <TextField
+                                            id="date"
+                                            label="Application Deadline"
+                                            type="date"
+                                            style={{
+                                                width: 200
+                                            }}
+                                            defaultValue={deadline.current}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            onChange={e => {
+                                                deadline.current = e.target.valueAsDate.toISOString()
+                                            }}
+                                        />
+                                    </div>
+                                </Grid>
+                                <Grid item md={6} sm={12} xs={12}>
+                                    <div className={classes.input}>
+                                        <TextField id="outlined-basic" label="Add Skill" variant="outlined" value={skill} onChange={e => {
+                                            // skill.current = e.target.value
+                                            setSkill(e.target.value)
+                                        }} />
+                                        {skill !== "" && <Button variant="contained" color="secondary" onClick={() => {
+                                            setSkills(skills => [...skills, skill])
+                                            setSkill("")
+                                        }}>ADD</Button>}
+                                    </div>
+                                    {skills.map((skill, index) => (
+                                        <Chip label={skill} onDelete={() => handleDelete(index)} color="secondary" />
+                                    ))}
+                                    <div className={classes.input}>
+                                        <FormControl component="fieldset">
+                                            <FormLabel component="legend">Perks</FormLabel>
+                                            <FormGroup aria-label="perks-checkboxes">
+                                                {["5 days a week", "Free transportation", "Free food", "Unlimited PTO", "Health insurance covered"].map(perk => (
+                                                    <FormControlLabel
+                                                        control = {
+                                                            <Checkbox color="primary" onChange={e => {
+                                                                perksHandler({ 
+                                                                    perk,
+                                                                    checked: e.target.checked,
+                                                                })
+                                                            }} />
+                                                        }
+                                                        label={perk}
+                                                        labelPlacement="end"
+                                                    />
+                                                ))}
+                                            </FormGroup>
+                                        </FormControl>
+                                    </div>
+                                    <div className={classes.input}>
+                                        <FormControl variant="outlined" className={classes.formControl + " " + classes.input}>
+                                            <InputLabel id="demo-simple-select-outlined-label">Domain</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-outlined-label"
+                                                id="demo-simple-select-outlined"
+                                                value={selectedDomain}
+                                                onChange={e => {
+                                                    setSelectedDomain(e.target.value)
+                                                }}
+                                                label="Domain"
+                                            >
+                                                {domains.length === 0 ? <p>Loading Domains...</p> : domains.map(domain => (
+                                                    <MenuItem value={domain._id}>{domain.name}</MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                            <Button variant="contained" color="primary" onClick={submit}>
+                                CREATE JOB
+                            </Button>
+                        </form>
+                    </main>
+                </Container>
+            </div>
+            
+            <DashboardIconSet />
+
+            {/* <Toast /> */}
+        </>
+        
     )
 }
 

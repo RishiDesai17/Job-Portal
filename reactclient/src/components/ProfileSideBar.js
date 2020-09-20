@@ -1,6 +1,5 @@
 import React, { memo, useState, useEffect } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { useSelector, shallowEqual } from 'react-redux';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -76,10 +75,11 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileSideBar = (props) => {
     const [state, setState] = useState()
-    const { window } = props;
+    const { current, window } = props;
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = useState(false);
+    const role = useSelector(state => state.AuthReducer.role, shallowEqual)
     const history = useHistory()
 
     const handleDrawerToggle = () => {
@@ -91,33 +91,34 @@ const ProfileSideBar = (props) => {
             <h1>abcd</h1>
             <Divider />
             <List>
-                <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "Profile" && '#009ffd' }} onClick={() => {
-                    props.setCurrent("Profile")
+                <ListItem button className={classes.buttons} style={{ backgroundColor: current === "Dashboard" && '#009ffd' }} onClick={() => {
+                    // setCurrent("Profile")
+                    history.push('/dashboard')
                     setMobileOpen(false)
                 }}> 
                     <ListItemIcon> <PersonIcon style={{ color: "white" }} /> </ListItemIcon>
                     <ListItemText primary='Profile' />
                 </ListItem>
-                { props.role === "user" ?
+                { role === "user" ?
                     <>
-                        <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "My Applications" && '#009ffd' }} onClick={() => {
-                            props.setCurrent("My Applications")
-                            // history.push('/')
+                        <ListItem button className={classes.buttons} style={{ backgroundColor: current === "My Jobs" && '#009ffd' }} onClick={() => {
+                            // setCurrent("My Applications")
+                            history.push('/dashboard/myjobs')
                             setMobileOpen(false)
                         }}> 
                             <ListItemIcon> <WorkIcon style={{ color: "white" }} /> </ListItemIcon>
-                            <ListItemText primary='My Applications' />
+                            <ListItemText primary='My Jobs' />
                         </ListItem>
-                        <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "Pre-Interviews" && '#009ffd' }} onClick={() => {
-                            props.setCurrent("Pre-Interviews")
-                            // history.push('/pre')
+                        <ListItem button className={classes.buttons} style={{ backgroundColor: current === "Pre-Interviews" && '#009ffd' }} onClick={() => {
+                            history.push('/dashboard/preinterviews')
                             setMobileOpen(false)
                         }}> 
                             <ListItemIcon> <AssignmentIcon style={{ color: "white" }} /> </ListItemIcon>
                             <ListItemText primary='Pre-Interviews' />
                         </ListItem>
-                        <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "Saved" && '#009ffd' }} onClick={() => {
-                            props.setCurrent("Saved")
+                        <ListItem button className={classes.buttons} style={{ backgroundColor: current === "Saved" && '#009ffd' }} onClick={() => {
+                            // setCurrent("Saved")
+                            history.push('/dashboard/saved')
                             setMobileOpen(false)
                         }}> 
                             <ListItemIcon> <BookmarkIcon style={{ color: "white" }} /> </ListItemIcon>
@@ -126,16 +127,17 @@ const ProfileSideBar = (props) => {
                     </>
                 :
                     <>
-                        <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "New Job" && '#009ffd' }} onClick={() => {
-                            // props.setCurrent("New Job")
-                            history.push("/newjob")
+                        <ListItem button className={classes.buttons} style={{ backgroundColor: current === "New Job" && '#009ffd' }} onClick={() => {
+                            // setCurrent("New Job")
+                            history.push("/dashboard/newjob")
                             setMobileOpen(false)
                         }}> 
                             <ListItemIcon> <BookmarkIcon style={{ color: "white" }} /> </ListItemIcon>
                             <ListItemText primary='New Job' />
                         </ListItem>
-                        <ListItem button className={classes.buttons} style={{ backgroundColor: props.current === "My Jobs" && '#009ffd' }} onClick={() => {
-                            props.setCurrent("My Jobs")
+                        <ListItem button className={classes.buttons} style={{ backgroundColor: current === "My Jobs" && '#009ffd' }} onClick={() => {
+                            // setCurrent("My Jobs")
+                            history.push("/dashboard/myjobs")
                             setMobileOpen(false)
                         }}> 
                             <ListItemIcon> <BookmarkIcon style={{ color: "white" }} /> </ListItemIcon>

@@ -12,7 +12,7 @@ export const jobsHandler = (pageno) => async dispatch => {
 
 export const userJobsHandler = (jobIDs) => async dispatch => {
     const jobs = await Promise.all(jobIDs.map(async jobID => {
-        const response = await axios.get(`api/jobs/${jobID}`)
+        const response = await axios.get(`/api/jobs/${jobID}`)
         return response.data.job
     }))
     dispatch({
