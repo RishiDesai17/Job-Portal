@@ -1,11 +1,12 @@
-import React, { memo, useRef, useEffect } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import InfiniteScroll from "react-infinite-scroll-component";
+// import ReactPaginate from 'react-paginate';
 import JobCard from '../components/JobCard';
 import { jobsHandler } from '../actions/jobs';
 import { Link } from 'react-router-dom';
-import {  } from "module";
 import { Grid } from '@material-ui/core';
+import Pagination from '@material-ui/lab/Pagination';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,73 +19,62 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('md')]: {
             display: 'none'
         }
+    },
+    pages: {
+        display: 'inline-block', borderRadius: 3, width: 45, margin: 5
+    },
+    active: {
+        display: 'inline-block', borderRadius: 3, backgroundColor: '#3f51b5', width: 45, margin: 5
     }
 }));
 
 const Jobs = (props) => {
-    const jobsState = useSelector(state => state.JobsReducer, shallowEqual)
+    const { jobs, numPages } = useSelector(state => ({
+        jobs: state.JobsReducer.jobs,
+        numPages: state.JobsReducer.numPages
+    }))
     const dispatch = useDispatch()
-    const currentPage = useRef(0)
+    const [currentPage, setCurrentPage] = useState(1)
     const classes = useStyles()
 
     useEffect(() => {
-        if(jobsState.jobs.length === 0){
-            getListofJobs(currentPage.current + 1)
+        if(!jobs[currentPage]){
+            dispatch(jobsHandler(currentPage))
         }
     }, [])
 
-    const getListofJobs = (page) => {
-        if(page){
-            currentPage.current = page
+    const handlePageChange = (e, page) => {
+        setCurrentPage(page)
+        if(!jobs[page]){
+            dispatch(jobsHandler(page))
         }
-        else{
-            currentPage.current += 1
-        }
-        dispatch(jobsHandler(currentPage.current))
-    }
-
-    const infiniteScrollHeight = () => {
-        console.log(window.outerHeight)
-        return 100
     }
 
     return (
         <>
-        <h1>JOBS</h1>
-        <div style={{margin: 25}}>
-            <p className={classes.filterIcon}>Filter Icon</p>
+            <h1>JOBS</h1>
             <Grid container>
-                <Grid item lg={9} md={6} sm={12} xs={12} style={{ maxHeight: '80vh' }}>
-                    <InfiniteScroll
-                        dataLength={jobsState.jobs.length}
-                        style={{ overflowY:'scroll' }}
-                        next={getListofJobs}
-                        height={300}
-                        hasMore={jobsState.jobs.length !== jobsState.numJobs}
-                        loader={<h4>Loading...</h4>}
-                        endMessage={<p>Bas hogaya</p>}
-                    >
-                        <Grid container>
-                            {jobsState.jobs.map((job, index) => (
-                                <Grid item lg={6} md={12} sm={12} xs={12} key={index}>
-                                    <div style={{ margin: 10 }}>
-                                        <JobCard job={job} />
-                                    </div>
-                                       
-                                    {/* {JSON.stringify(job)} */}
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </InfiniteScroll>
+                <Grid item lg={9} md={8} sm={12} xs={12}>
+                    <Grid container>
+                        {jobs[currentPage] ? jobs[currentPage].map((job, index) => (
+                            <Grid item lg={6} md={6} sm={12} xs={12} key={index}>
+                                <div style={{ margin: 10 }}>
+                                    <JobCard job={job} />
+                                </div>
+                            </Grid>
+                        ))
+                        :
+                            <p>Loading..</p>
+                        }
+                    </Grid>
                 </Grid>
-                <Grid item lg={3} md={6} className={classes.filter}>
+                <Grid item lg={3} md={4} className={classes.filter}>
                     <h1>Filter</h1>
                 </Grid>
             </Grid>
-            </div>
-            {/* <button onClick={() => {
-                getListofJobs(currentPage.current + 1)
-            }}>next</button> */}
+            
+            <Pagination count={numPages} color="primary" boundaryCount={2} onChange={handlePageChange} />          
+
             <Link to="/">home</Link>
         </>
     )

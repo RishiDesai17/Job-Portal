@@ -1,8 +1,9 @@
 import { GET_JOBS, GET_USER_JOBS } from "../actions/types"
 
 const INIT_STATE = {
-    jobs: [],
+    jobs: {},
     numJobs: 0,
+    numPages: 0,
     userJobs: null,
     jobsShortlisted: null,
     jobsSelected: null
@@ -12,18 +13,16 @@ const JobsReducer = (state = INIT_STATE, action) => {
     const { type, payload } = action
     switch(type){
         case GET_JOBS:
+            let jobs = state.jobs
+            jobs[payload.pageno] = payload.jobs
+            console.log(state)
             return {
                 ...state,
-                jobs: [...state.jobs, ...payload.jobs],
-                numJobs: payload.count
+                jobs,
+                numJobs: payload.count,
+                numPages: payload.pages
             }
         case GET_USER_JOBS:
-            // const required_jobIDs_property = payload.required_jobIDs_property
-            // const modified_state = {
-            //     ...state
-            // }
-            // modified_state[required_jobIDs_property] = payload.jobs
-            // console.log(modified_state)
             return {
                 ...state,
                 ...payload

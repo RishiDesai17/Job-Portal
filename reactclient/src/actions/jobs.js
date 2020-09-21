@@ -6,7 +6,11 @@ export const jobsHandler = (pageno) => async dispatch => {
     console.log(response)
     dispatch({
         type: GET_JOBS,
-        payload: response.data
+        payload: {
+            jobs: response.data.jobs,
+            pages: response.data.pages,
+            pageno
+        },
     })
 }
 
