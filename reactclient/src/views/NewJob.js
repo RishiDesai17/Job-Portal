@@ -95,7 +95,7 @@ const NewJob = ({ setCurrent }) => {
     const submit = async() => {
         try{
             setProgress(true)
-            const response = await axios.post('api/jobs/createjob',
+            const response = await axios.post('/api/jobs/createjob',
                 JSON.stringify({
                     title: title.current,
                     description: description.current,

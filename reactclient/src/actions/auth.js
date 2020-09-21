@@ -6,7 +6,7 @@ import { INIT_LOGIN, LOGOUT } from './types';
 
 export const init = () => async dispatch => {
     try{
-        const response = await axios.post('api/refresh', JSON.stringify({
+        const response = await axios.post('/api/refresh', JSON.stringify({
             getprofile: true
         }),{
             // onDownloadProgress: (progressEvent) => {
@@ -91,7 +91,7 @@ export const login = ({ url, code, emailPassword }) => async dispatch => {
 
 export const logout = () => async dispatch => {
     try{
-        const response = await axios.get("api/users/logout")
+        const response = await axios.get("/api/users/logout")
         console.log(response)
         if(response.status === 200){
             dispatch({

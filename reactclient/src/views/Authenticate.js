@@ -22,7 +22,7 @@ const Authenticate = (props) => {
             history.replace('/')
             return;
         }
-        const result = await dispatch(login({url: 'api/users/googlelogin', code: queryParams.code }))
+        const result = await dispatch(login({url: '/api/users/googlelogin', code: queryParams.code }))
         if(result.success){
             history.replace('/')
         }

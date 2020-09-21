@@ -34,7 +34,7 @@ const EmployerLogin = (props) => {
     const history = useHistory()
 
     const Login = async() => {
-        const result = await dispatch(login({ url: 'api/employers/login', emailPassword: state }))
+        const result = await dispatch(login({ url: '/api/employers/login', emailPassword: state }))
         if(result.success){
             history.replace('/')
         }

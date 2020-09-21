@@ -42,7 +42,7 @@ const Resumes = (props) => {
       }
 
     const fn = async() => {
-        const doc = await pdfjs.getDocument("uploads/100041255185678789124/1597332350355My Resume.pdf").promise
+        const doc = await pdfjs.getDocument("/uploads/100041255185678789124/1597332350355My Resume.pdf").promise
         console.log(doc)
         const page = await doc.getPage(1)
         console.log(page)

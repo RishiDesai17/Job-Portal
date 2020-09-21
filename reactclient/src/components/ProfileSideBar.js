@@ -74,7 +74,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ProfileSideBar = (props) => {
-    const [state, setState] = useState()
     const { current, window } = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -92,7 +91,6 @@ const ProfileSideBar = (props) => {
             <Divider />
             <List>
                 <ListItem button className={classes.buttons} style={{ backgroundColor: current === "Dashboard" && '#009ffd' }} onClick={() => {
-                    // setCurrent("Profile")
                     history.push('/dashboard')
                     setMobileOpen(false)
                 }}> 
@@ -102,7 +100,6 @@ const ProfileSideBar = (props) => {
                 { role === "user" ?
                     <>
                         <ListItem button className={classes.buttons} style={{ backgroundColor: current === "My Jobs" && '#009ffd' }} onClick={() => {
-                            // setCurrent("My Applications")
                             history.push('/dashboard/myjobs')
                             setMobileOpen(false)
                         }}> 
@@ -117,7 +114,6 @@ const ProfileSideBar = (props) => {
                             <ListItemText primary='Pre-Interviews' />
                         </ListItem>
                         <ListItem button className={classes.buttons} style={{ backgroundColor: current === "Saved" && '#009ffd' }} onClick={() => {
-                            // setCurrent("Saved")
                             history.push('/dashboard/saved')
                             setMobileOpen(false)
                         }}> 
@@ -128,7 +124,6 @@ const ProfileSideBar = (props) => {
                 :
                     <>
                         <ListItem button className={classes.buttons} style={{ backgroundColor: current === "New Job" && '#009ffd' }} onClick={() => {
-                            // setCurrent("New Job")
                             history.push("/dashboard/newjob")
                             setMobileOpen(false)
                         }}> 
@@ -136,7 +131,6 @@ const ProfileSideBar = (props) => {
                             <ListItemText primary='New Job' />
                         </ListItem>
                         <ListItem button className={classes.buttons} style={{ backgroundColor: current === "My Jobs" && '#009ffd' }} onClick={() => {
-                            // setCurrent("My Jobs")
                             history.push("/dashboard/myjobs")
                             setMobileOpen(false)
                         }}> 

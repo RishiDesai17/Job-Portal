@@ -3,7 +3,7 @@ import setAccessToken from './setAccessToken'
 
 const SilentlyReviveAccessToken = async() => {
     try{
-        const response = await axios.post('api/refresh', JSON.stringify({
+        const response = await axios.post('/api/refresh', JSON.stringify({
             getprofile: false
         }),{
             headers: {
