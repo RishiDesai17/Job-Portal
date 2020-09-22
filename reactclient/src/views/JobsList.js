@@ -1,7 +1,5 @@
 import React, { memo, useState, useEffect } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import InfiniteScroll from "react-infinite-scroll-component";
-// import ReactPaginate from 'react-paginate';
 import JobCard from '../components/JobCard';
 import { jobsHandler } from '../actions/jobs';
 import { Link } from 'react-router-dom';

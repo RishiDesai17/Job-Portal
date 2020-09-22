@@ -9,7 +9,7 @@ router.get('/:jobid', JobsController.getJob)
 
 router.get('/details/:jobid', JobsController.getJobDetails)
 
-router.get('/:domain', JobsController.getJobsByDomain)
+router.get('/filter', JobsController.getJobsByDomain)
 
 router.post('/createjob', checkAuth, JobsController.createJob);
 

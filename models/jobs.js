@@ -44,15 +44,15 @@ const jobSchema = new mongoose.Schema({
         ref: 'PreInterview'
     },
     applicants: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'User'
     }],
     shortlisted: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'User'
     }],
     selected: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'User'
     }]
 },

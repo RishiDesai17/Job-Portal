@@ -39,21 +39,16 @@ const JobCard = ({ job, showReadMoreButton }) => {
                                 <p className="component-text">Apply by {ddmmyyyy_format(applicationDeadline)}</p>
                             </div>
                         </div>
-
                     </div>
                     <div id="logo-container">
                         <div style={{ flex: 1 }}>
                             <img src={employer.logo ? employer.logo : require('../media/default-company-logo.jpg')} id="logo" />
                         </div>
-                        
                         {showReadMoreButton && <button style={{ position: 'relative', bottom: '15%', right: '15%' }} onClick={() => {
                             history.push(`/jobs/${_id}`)
                         }}>Read More</button>}
                     </div>
                 </div>
-                {/* {showReadMoreButton && <button style={{ position: 'relative', bottom: '20%', right: '10%' }} onClick={() => {
-                    history.push(`/jobs/${_id}`)
-                }}>Read More...</button>} */}
             </Card>
         </>
     )
