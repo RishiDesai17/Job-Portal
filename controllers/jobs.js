@@ -120,10 +120,10 @@ exports.apply = async(req,res) => {
         }
         const response = await Promise.all([
             Job.findByIdAndUpdate(jobID, {
-                $push: { "applicants": id }
+                $addToSet: { "applicants": id }
             }),
             User.findByIdAndUpdate(id, {
-                $push: { "jobsApplied": jobID }
+                $addToSet: { "jobsApplied": jobID }
             })
         ])
         return res.status(200).json({
@@ -151,11 +151,11 @@ exports.shortlist = async(req,res) => {
         // if(employer.)
         const response = await Promise.all([
             Job.findByIdAndUpdate(jobID, {
-                $push: { "shortlisted": userID },
+                $addToSet: { "shortlisted": userID },
                 $pull: { "applicants": userID }
             }),
             User.findByIdAndUpdate(userID, {
-                $push: { "jobsShortlisted": jobID },
+                $addToSet: { "jobsShortlisted": jobID },
                 $pull: { "jobsApplied": jobID }
             })
         ])
@@ -188,11 +188,11 @@ exports.select = async(req,res) => {
         }
         const response = await Promise.all([
             Job.findByIdAndUpdate(jobID, {
-                $push: { "shortlisted": userID },
+                $addToSet: { "shortlisted": userID },
                 $pull: { "applicants": userID }
             }),
             User.findByIdAndUpdate(userID, {
-                $push: { "jobsShortlisted": jobID },
+                $addToSet: { "jobsShortlisted": jobID },
                 $pull: { "jobsApplied": jobID }
             })
         ])
