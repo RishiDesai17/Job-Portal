@@ -35,7 +35,8 @@ const employerSchema = new mongoose.Schema({
     confirmed: {
         type: Boolean,
         required: true,
-        default: false
+        default: false,
+        select: false
     }
 },
 {

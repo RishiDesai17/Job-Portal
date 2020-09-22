@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import { makeStyles } from '@material-ui/core/styles';
+import { DotsLoader } from '../components/ActivityIndicators';
 
 const useStyles = makeStyles((theme) => ({
     filter: {
@@ -59,12 +60,14 @@ const Jobs = (props) => {
                         {jobs[currentPage] ? jobs[currentPage].map((job, index) => (
                             <Grid item lg={6} md={6} sm={12} xs={12} key={index}>
                                 <div style={{ margin: 10 }}>
-                                    <JobCard job={job} />
+                                    <JobCard job={job} showReadMoreButton={true} />
                                 </div>
                             </Grid>
                         ))
                         :
-                            <p>Loading..</p>
+                            <div style={{ position: 'relative', top:'50%', left: '50%' }}>
+                                <DotsLoader />
+                            </div>
                         }
                     </Grid>
                 </Grid>

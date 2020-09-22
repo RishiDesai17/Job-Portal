@@ -5,13 +5,14 @@ const { generateTokens } = require('../utils/token')
 
 exports.login = async(req,res) => {
     try{
-        const employer = await Employer.find({ email: req.body.email }).select("+password").limit(1);
+        const employer = await Employer.find({ email: req.body.email }).select("+password +confirmed").limit(1);
         if(employer.length === 0){
             return res.status(404).json({
                 NOT_FOUND: 'This account does not exist'
             })
         }
         let employerData = employer[0]
+        console.log(employerData)
         if(!employerData.confirmed){
             return res.status(401).json({
                 UNAPPROVED: "Your account hasn't been approved yet"

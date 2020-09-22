@@ -7,6 +7,8 @@ router.get('/', JobsController.getAllJobs)
 
 router.get('/:jobid', JobsController.getJob)
 
+router.get('/details/:jobid', JobsController.getJobDetails)
+
 router.get('/:domain', JobsController.getJobsByDomain)
 
 router.post('/createjob', checkAuth, JobsController.createJob);

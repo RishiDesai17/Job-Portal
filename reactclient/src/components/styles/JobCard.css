@@ -1,0 +1,35 @@
+#jobCard-container{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+.sub-container{
+    text-align: left;
+    margin: 10px
+}
+.components{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.component-text{
+    margin-left: 10px;
+}
+#logo-container{
+    margin-left: auto;
+    margin-top: 10px; 
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+}
+#logo{
+    width: 40px; 
+    border-radius: 20px;
+}
+#logo-large{
+    width: 60px; 
+    border-radius: 30px;
+}
+.blue{
+    color: #3B55A0;
+}

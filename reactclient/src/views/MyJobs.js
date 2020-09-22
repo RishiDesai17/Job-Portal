@@ -6,8 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { makeStyles } from '@material-ui/core/styles';
-import { Dots } from 'react-activity';
-import 'react-activity/dist/react-activity.css';
+import { DotsLoader } from '../components/ActivityIndicators';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -68,7 +67,7 @@ const MyJobs = props => {
     const activity_indicator = () => {
         return(
             <div style={{ position: 'relative', top: '50%' }}>
-                <Dots color="#727981" size={32} speed={1} animating={true} />
+                <DotsLoader />
             </div>
         )
     }

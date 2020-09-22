@@ -60,7 +60,18 @@ exports.getJob = async(req,res) => {
 }
 
 exports.getJobDetails = async(req,res) => {
-    
+    try {
+        const job = await Job.findById(req.params.jobid)
+            .populate('employer', '-jobs')
+            .populate('domain')
+        return res.status(200).json({
+            job
+        })
+    } catch (err) {
+        return res.status(500).json({
+            SOMETHING_WENT_WRONG: 'Something went wrong, Please try again'
+        })
+    }
 }
 
 exports.createJob = async(req,res) => {

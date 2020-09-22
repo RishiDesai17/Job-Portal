@@ -6,12 +6,13 @@ import Jobs from './views/JobsList';
 import Login from './views/Login';
 import Authenticate from './views/Authenticate';
 import Dashboard from './views/Dashboard';
+import NewJob from './views/NewJob';
+import MyJobs from './views/MyJobs';
+import JobDetails from './views/JobDetails';
 import { Provider } from 'react-redux';
 import store from './store';
 import { init } from './actions/auth';
 import './App.css';
-import NewJob from './views/NewJob';
-import MyJobs from './views/MyJobs';
 
 const App = () => {
   useEffect(() => {
@@ -25,6 +26,7 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/jobs" component={Jobs} />
+            <Route exact path="/jobs/:jobid" component={JobDetails} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/auth" component={Authenticate} />
             <ProtectedRoute exact path="/dashboard" component={Dashboard} />
