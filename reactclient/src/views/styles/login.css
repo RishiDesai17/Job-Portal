@@ -48,12 +48,20 @@
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 500px) {
     .tab{
-        width: 23vh;
+        width: 24vh;
     }
     .tab-content{
-        width: 46vh;
+        width: 48vh;
+    }
+}
+@media screen and (max-width: 390px) {
+    .tab{
+        width: 19vh;
+    }
+    .tab-content{
+        width: 38vh;
     }
 }
 .type {

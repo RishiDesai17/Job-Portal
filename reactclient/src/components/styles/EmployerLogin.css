@@ -12,3 +12,13 @@
     opacity: 0;
     transition: opacity 200ms;
 }
+#login-title{
+    font-family: 'MontserratRegular';
+    font-size: 30px;
+}
+.login-input-container{
+    margin-bottom: 20px;
+}
+#login-button-container{
+    margin: 30px;
+}

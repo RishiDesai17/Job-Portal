@@ -23,7 +23,6 @@ const Home = (props) => {
                     }
                 </div>
             }
-            <p>{JSON.stringify(new Date("2020", "10", "20"))}</p>
             <Link to="/jobs">jobs</Link>
         </div>
     )

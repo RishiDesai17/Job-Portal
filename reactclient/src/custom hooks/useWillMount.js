@@ -1,11 +1,11 @@
 import { useRef } from 'react';
 
-const useWillMount = (func) => {
-    const willMount = useRef(true);
-    if (willMount.current) {
-      func();
+const useWillMount = (fn, loggedIn) => {
+    const currentState = useRef(false);
+    if (currentState.current !== loggedIn) {
+      currentState.current = loggedIn;
+      fn();
     }
-    willMount.current = false;
 }
 
 export default useWillMount;

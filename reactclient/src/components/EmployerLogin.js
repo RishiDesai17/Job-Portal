@@ -2,8 +2,8 @@ import React, { memo, useReducer, useEffect, useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import { login } from "../actions/auth";
-import axios from 'axios';
 import './styles/EmployerLogin.css'
 
 const init_state = {
@@ -11,7 +11,7 @@ const init_state = {
     password: ""
 }
 
-const EmployerLogin = (props) => {
+const EmployerLogin = props => {
     const reducer = useCallback((state, action) => {
         console.log(state)
         if(action.type === 'email'){
@@ -46,24 +46,33 @@ const EmployerLogin = (props) => {
     return (
         <>
             <div>
+                <p id="login-title">Login</p>
+            </div>
+            <div className="login-input-container">
                 <TextField 
                     id="outlined-basic"
                     label="Email"
                     variant="outlined"
-                    onChange={(e) => {
+                    onChange={e => {
                         Dispatch({ type: 'email', payload: e.target.value })
                     }}
                 />
+            </div>
+            <div className="login-input-container">
                 <TextField 
                     id="outlined-basic"
                     type="password"
                     label="Password"
                     variant="outlined"
-                    onChange={(e) => {
+                    onChange={e => {
                         Dispatch({ type: 'password', payload: e.target.value })
                     }}
                 />
-                <button onClick={Login}>LOGIN</button>
+            </div>
+            <div id="login-button-container">
+                <Button variant="contained" color="primary" onClick={Login}>
+                    LOGIN
+                </Button>
             </div>
         </>
     )
