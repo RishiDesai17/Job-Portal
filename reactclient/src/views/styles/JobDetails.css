@@ -1,0 +1,9 @@
+.job-details-icons-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.job-details-icons{
+    color: #3B55A0;
+    margin-right: 5px;
+}

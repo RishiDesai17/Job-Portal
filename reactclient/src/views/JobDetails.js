@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import JobCard from '../components/JobCard';
 import axios from 'axios';
 import CallIcon from '@material-ui/icons/Call';
@@ -9,20 +10,23 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { toast } from "react-toastify";
 import Toast from '../components/Toast';
+import './styles/JobDetails.css';
 
 const Job = props => {
     const [job, setJob] = useState()
     const [progress, setProgress] = useState(false)
     const [buttonDisabled, setButtonDisabled] = useState(false)
     const role = useSelector(useCallback(state => state.AuthReducer.role, []))
+    const { jobid, num } = useParams();
 
     useEffect(() => {
         getJobDetails()
+        console.log(num, typeof num)
     }, [])
 
     const getJobDetails = async() => {
         try{
-            const response = await axios.get(`/api/jobs/details/${props.match.params.jobid}`)
+            const response = await axios.get(`/api/jobs/details/${jobid}`)
             console.log(response.data.job)
             setJob(response.data.job)
         }
@@ -65,7 +69,7 @@ const Job = props => {
     return (
         <>
             {progress && <LinearProgress />}
-            <div style={{ width: '80vw', textAlign:'center', margin: '0 auto', padding: 50 }}>
+            <div style={{ width: '80vw', textAlign:'center', margin: '0 auto', paddingTop: 50, paddingBottom: 50}}>
                 {job ? 
                     <>
                         <JobCard job={job} showReadMoreButton={false} />
@@ -73,13 +77,13 @@ const Job = props => {
                             <>
                                 <h4>About {job.employer.name}</h4>
                                 <p>{job.employer.about}</p>
-                                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                    <CallIcon style={{ color: '#3B55A0' }} />
-                                    <p style={{ marginLeft: 5 }}>{job.employer.contact_no}</p>
+                                <div className="job-details-icons-container">
+                                    <CallIcon className="job-details-icons" />
+                                    <p>{job.employer.contact_no}</p>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                    <EmailIcon style={{ color: '#3B55A0' }} />
-                                    <p style={{ marginLeft: 5 }}>{job.employer.email}</p>
+                                <div className="job-details-icons-container">
+                                    <EmailIcon className="job-details-icons" />
+                                    <p>{job.employer.email}</p>
                                 </div>
                             </>
                             <>

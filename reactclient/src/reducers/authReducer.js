@@ -18,7 +18,8 @@ const AuthReducer = (state = INIT_STATE, action) => {
         case LOGOUT:
             return {
                 ...INIT_STATE,
-                isLoggedIn: false
+                isLoggedIn: false,
+                loading: false
             }
         default:
             return state

@@ -1,5 +1,6 @@
 import React, { memo, useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import './styles/home.css'
 
@@ -10,6 +11,7 @@ const Home = (props) => {
 
     return (
         <div>
+            <Header />
             <h1>Home</h1>
             {console.log("render home")}
             <div>

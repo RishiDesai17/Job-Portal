@@ -13,12 +13,12 @@ import JobDetails from './views/JobDetails';
 import LoadingPage from './views/LoadingPage';
 
 const Router = () => {
-    const loading = useSelector(state => state.AuthReducer.loading, [])
+    const loading = useSelector(state => state.AuthReducer.loading)
 
     return (
         <BrowserRouter>
             {loading ? 
-                <LoadingPage /> 
+                <LoadingPage />
             : 
                 <Switch>
                     <Route exact path="/" component={Home} />

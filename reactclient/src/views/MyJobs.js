@@ -7,14 +7,19 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { makeStyles } from '@material-ui/core/styles';
 import { DotsLoader } from '../components/ActivityIndicators';
+import JobCard from '../components/JobCard';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        display: 'flex'
+    },
+    tabPanel: {
         flexGrow: 1
     },
     content: {
         flexGrow: 1,
-        padding: theme.spacing(4)
+        margin: theme.spacing(4)
     }
 }));
 
@@ -97,9 +102,15 @@ const MyJobs = props => {
             }
             else{
                 return(
-                    jobsToBeDisplayed.map(job => (
-                        <p>{JSON.stringify(job)}</p>
-                    ))
+                    <Grid container>
+                        {jobsToBeDisplayed.map(job => (
+                            <Grid item lg={6} md={6} sm={12} xs={12} >
+                                <div style={{ margin: 10 }}>
+                                    <JobCard job={job} showReadMoreButton={true} />
+                                </div>
+                            </Grid>
+                        ))}
+                    </Grid>
                 )
             }
         }
@@ -107,25 +118,27 @@ const MyJobs = props => {
 
     return (
         <>
-            <div style={{display: 'flex'}}>
+            <div className={classes.root}>
                 <ProfileSideBar current="My Jobs" />
                 <main className={classes.content}>
-                    {role === 'user' && 
-                        <Paper className={classes.root}>
-                            <Tabs
-                                value={tab}
-                                onChange={handleTabChange}
-                                indicatorColor="primary"
-                                textColor="primary"
-                                centered
-                            >
-                                <Tab label="Applied" />
-                                <Tab label="Shortlisted" />
-                                <Tab label="Selected" />
-                            </Tabs>
-                        </Paper>
-                    }
-                    {displayJobsHandler()}
+                    <div >
+                        {role === 'user' && 
+                            <Paper className={classes.tabPanel}>
+                                <Tabs
+                                    value={tab}
+                                    onChange={handleTabChange}
+                                    indicatorColor="primary"
+                                    textColor="primary"
+                                    centered
+                                >
+                                    <Tab label="Applied" />
+                                    <Tab label="Shortlisted" />
+                                    <Tab label="Selected" />
+                                </Tabs>
+                            </Paper>
+                        }
+                        {displayJobsHandler()}
+                    </div>
                 </main>
             </div>
         </>
