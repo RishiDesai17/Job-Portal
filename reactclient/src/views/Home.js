@@ -12,17 +12,13 @@ const Home = (props) => {
         <div>
             <h1>Home</h1>
             {console.log("render home")}
-            {isLoggedIn === null ? 
-                <p>Loading...</p> 
-            :
-                <div>
-                    {isLoggedIn ? 
-                        <Link to="/dashboard">Dashboard</Link>
-                    : 
-                        <Link to="/login">login</Link>
-                    }
-                </div>
-            }
+            <div>
+                {isLoggedIn ? 
+                    <Link to="/dashboard">Dashboard</Link>
+                : 
+                    <Link to="/login">login</Link>
+                }
+            </div>
             <Link to="/jobs">jobs</Link>
         </div>
     )

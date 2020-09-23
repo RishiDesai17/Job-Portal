@@ -1,7 +1,8 @@
 import { INIT_LOGIN, LOGOUT } from "../actions/types"
 
 const INIT_STATE = {
-    isLoggedIn: null,
+    isLoggedIn: false,
+    loading: true,
     profile: null,
     role: null
 }

@@ -24,6 +24,7 @@ export const init = () => async dispatch => {
             type: INIT_LOGIN,
             payload: {
                 isLoggedIn: true,
+                loading: false,
                 profile,
                 role
             }
@@ -39,7 +40,8 @@ export const init = () => async dispatch => {
         dispatch({
             type: INIT_LOGIN,
             payload: {
-                isLoggedIn: false
+                isLoggedIn: false,
+                loading: false
             }
         })
         console.log(err)

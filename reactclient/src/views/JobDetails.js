@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import JobCard from '../components/JobCard';
-import { DotsLoader } from '../components/ActivityIndicators';
 import axios from 'axios';
 import CallIcon from '@material-ui/icons/Call';
 import EmailIcon from '@material-ui/icons/Email';
 import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress'
+import Skeleton from '@material-ui/lab/Skeleton';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { toast } from "react-toastify";
 import Toast from '../components/Toast';
 
@@ -63,54 +63,58 @@ const Job = props => {
     }
 
     return (
-        <div>
+        <>
             {progress && <LinearProgress />}
-            {job ? 
-                <div style={{ width: '80vw', textAlign:'center', margin: '0 auto', padding: 50 }}>
-                    <JobCard job={job} showReadMoreButton={false} />
-                    <div style={{ textAlign: 'left', margin: 5 }}>
-                        <>
-                            <h4>About {job.employer.name}</h4>
-                            <p>{job.employer.about}</p>
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                <CallIcon style={{ color: '#3B55A0' }} />
-                                <p style={{ marginLeft: 5 }}>{job.employer.contact_no}</p>
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                <EmailIcon style={{ color: '#3B55A0' }} />
-                                <p style={{ marginLeft: 5 }}>{job.employer.email}</p>
-                            </div>
-                        </>
-                        <>
-                            <h4>Job Description</h4>
-                            <p>{job.description}</p>
-                            <h4>Skills</h4>
-                            {job.skills.map((skill, index) => (
-                                <p style={{ display: 'inline' }}>{index < job.skills.length-1 ? skill + ", " : skill}</p>
-                            ))}
-                            <h4>Perks</h4>
-                            <ol>
-                                {job.perks.map(perk => (
-                                    <li>{perk}</li>
+            <div style={{ width: '80vw', textAlign:'center', margin: '0 auto', padding: 50 }}>
+                {job ? 
+                    <>
+                        <JobCard job={job} showReadMoreButton={false} />
+                        <div style={{ textAlign: 'left', margin: 5 }}>
+                            <>
+                                <h4>About {job.employer.name}</h4>
+                                <p>{job.employer.about}</p>
+                                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <CallIcon style={{ color: '#3B55A0' }} />
+                                    <p style={{ marginLeft: 5 }}>{job.employer.contact_no}</p>
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                                    <EmailIcon style={{ color: '#3B55A0' }} />
+                                    <p style={{ marginLeft: 5 }}>{job.employer.email}</p>
+                                </div>
+                            </>
+                            <>
+                                <h4>Job Description</h4>
+                                <p>{job.description}</p>
+                                <h4>Skills</h4>
+                                {job.skills.map((skill, index) => (
+                                    <p style={{ display: 'inline' }}>{index < job.skills.length-1 ? skill + ", " : skill}</p>
                                 ))}
-                            </ol>
-                            <h4>Number of positions</h4>
-                            <p>{job.positions}</p>
-                        </>
-                        <div style={{ textAlign: 'center' }}>
-                            {role === 'user' && <Button color="primary" variant="contained" disabled={buttonDisabled} style={{ width: 260 }} onClick={apply}>
-                                APPLY
-                            </Button>}
+                                <h4>Perks</h4>
+                                <ol>
+                                    {job.perks.map(perk => (
+                                        <li>{perk}</li>
+                                    ))}
+                                </ol>
+                                <h4>Number of positions</h4>
+                                <p>{job.positions}</p>
+                            </>
+                            <div style={{ textAlign: 'center' }}>
+                                {role === 'user' && <Button color="primary" variant="contained" disabled={buttonDisabled} style={{ width: 260 }} onClick={apply}>
+                                    APPLY
+                                </Button>}
+                            </div>
                         </div>
-                    </div>
-                </div>
-            : 
-                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                    <DotsLoader />
-                </div>
-            }
+                    </> 
+                : 
+                    <>
+                        <Skeleton animation="wave" variant="rect" width={'80vw'} height={200} />
+                        <Skeleton animation="wave" width={250} style={{ marginTop: 30 }} />
+                        <Skeleton animation="wave" width={250} />
+                    </>
+                }
+            </div>
             <Toast />
-        </div>
+        </>
     )
 }
 
