@@ -3,14 +3,22 @@
     width: 180px;
     border-radius: 90px;
 }
-#name{
+.montserrat{
     font-family: 'MontserratRegular';
+}
+.about {
+    font-size: 25px;
+    color: #3B55A0;
+}
+#employer-details-container {
+    margin-top: 50px;
+}
+#name{
     font-size: 40px;
     margin-top: 20px;
     margin-bottom: 0;
 }
 #email{
-    font-family: 'MontserratRegular';
     font-size: 20px;
     margin-top: 5px;
     word-break: break-all;

@@ -17,20 +17,20 @@ const Authenticate = (props) => {
     const auth = async() => {
         const queryParams = queryString.parse(window.location.search)
         console.log(queryParams)
-        alert("1")
+        // alert("1")
         if(!queryParams.code || queryParams.error){
             history.replace('/')
             return;
         }
         const result = await dispatch(login({url: '/api/users/googlelogin', code: queryParams.code }))
         if(result.success){
-            history.replace('/')
+            history.replace('/dashboard')
         }
         else{
             alert("Something went wrong, Please try again")
             history.replace('/login')
         }
-        alert("2")
+        // alert("2")
     }
 
     useEffect(() => {

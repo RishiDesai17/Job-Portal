@@ -97,22 +97,15 @@ const ProfileSideBar = (props) => {
                     <ListItemIcon> <PersonIcon style={{ color: "white" }} /> </ListItemIcon>
                     <ListItemText primary='Profile' />
                 </ListItem>
+                <ListItem button className={classes.buttons} style={{ backgroundColor: current === "My Jobs" && '#009ffd' }} onClick={() => {
+                    history.push('/dashboard/myjobs')
+                    setMobileOpen(false)
+                }}> 
+                    <ListItemIcon> <WorkIcon style={{ color: "white" }} /> </ListItemIcon>
+                    <ListItemText primary='My Jobs' />
+                </ListItem>
                 { role === "user" ?
                     <>
-                        <ListItem button className={classes.buttons} style={{ backgroundColor: current === "My Jobs" && '#009ffd' }} onClick={() => {
-                            history.push('/dashboard/myjobs')
-                            setMobileOpen(false)
-                        }}> 
-                            <ListItemIcon> <WorkIcon style={{ color: "white" }} /> </ListItemIcon>
-                            <ListItemText primary='My Jobs' />
-                        </ListItem>
-                        <ListItem button className={classes.buttons} style={{ backgroundColor: current === "Pre-Interviews" && '#009ffd' }} onClick={() => {
-                            history.push('/dashboard/preinterviews')
-                            setMobileOpen(false)
-                        }}> 
-                            <ListItemIcon> <AssignmentIcon style={{ color: "white" }} /> </ListItemIcon>
-                            <ListItemText primary='Pre-Interviews' />
-                        </ListItem>
                         <ListItem button className={classes.buttons} style={{ backgroundColor: current === "Saved" && '#009ffd' }} onClick={() => {
                             history.push('/dashboard/saved')
                             setMobileOpen(false)
@@ -123,19 +116,19 @@ const ProfileSideBar = (props) => {
                     </>
                 :
                     <>
+                        <ListItem button className={classes.buttons} style={{ backgroundColor: current === "Pre-Interviews" && '#009ffd' }} onClick={() => {
+                            history.push('/dashboard/preinterview')
+                            setMobileOpen(false)
+                        }}>
+                            <ListItemIcon> <AssignmentIcon style={{ color: "white" }} /> </ListItemIcon>
+                            <ListItemText primary='Pre-Interviews' />
+                        </ListItem>
                         <ListItem button className={classes.buttons} style={{ backgroundColor: current === "New Job" && '#009ffd' }} onClick={() => {
                             history.push("/dashboard/newjob")
                             setMobileOpen(false)
                         }}> 
                             <ListItemIcon> <BookmarkIcon style={{ color: "white" }} /> </ListItemIcon>
                             <ListItemText primary='New Job' />
-                        </ListItem>
-                        <ListItem button className={classes.buttons} style={{ backgroundColor: current === "My Jobs" && '#009ffd' }} onClick={() => {
-                            history.push("/dashboard/myjobs")
-                            setMobileOpen(false)
-                        }}> 
-                            <ListItemIcon> <BookmarkIcon style={{ color: "white" }} /> </ListItemIcon>
-                            <ListItemText primary='My Jobs' />
                         </ListItem>
                     </>
                 }

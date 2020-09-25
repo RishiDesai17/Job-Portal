@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector } from "react-redux";
 import ProfileSideBar from '../components/ProfileSideBar';
 import Toast from '../components/Toast';
 import Resumes from '../components/Resumes';
 import DashboardIconSet from "../components/DashboardIconSet";
 import Container from '@material-ui/core/Container';
+import CallIcon from '@material-ui/icons/Call';
 import { makeStyles } from '@material-ui/core/styles';
-import './styles/ApplicantDetails.css';
+import './styles/Dashboard.css';
 
 const useStyles = makeStyles((theme) => ({    
     content: {
@@ -23,10 +24,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Dashboard = props => {
-    const role = useSelector(state => state.AuthReducer.role, shallowEqual)
-    const profile = useSelector(state => state.AuthReducer.profile, shallowEqual)
+    const role = useSelector(state => state.AuthReducer.role)
+    const profile = useSelector(state => state.AuthReducer.profile)
 
     const classes = useStyles();
+
+    const content = () => {
+        if(role === "employer"){
+            return(
+                <div id="employer-details-container">
+                    <h4 className="montserrat about">ABOUT US</h4>
+                    <p>{profile.about}</p>
+                    <div className="job-details-icons-container">
+                        <CallIcon className="job-details-icons" />
+                        <p className="montserrat">{profile.contact_no}</p>
+                    </div>
+                </div>
+            )
+        }
+        else{
+            return(
+                <>
+                    <Resumes resumes={profile.resumes} id={profile._id} />
+                </>
+            )
+        }
+    }
 
     const details = () => {
         if(role === "employer"){
@@ -63,11 +86,33 @@ const Dashboard = props => {
         )
     }
 
+    const employerLogo = () => {
+        if(!profile.logo){
+            return require('../media/default-company-logo.jpg')
+        }
+        return profile.logo
+    }
+
     return(
         <>
-            <div style={{display: 'flex'}}>
+            <div style={{ display: 'flex' }}>
                 <ProfileSideBar current="Dashboard" />
-                {details()}
+                <Container>
+                    <div style={{ display: 'flex' }}>
+                        <main className={classes.content + " content"}>
+                            <div className={classes.profile + " profileContainer"}>
+                                <div>
+                                    <img src={role === "employer" ? employerLogo() : profile.profile_pic} id="profilePic" />
+                                </div>
+                                <div className="name-email-container">
+                                    <p className="montserrat" id="name">{profile.name.toUpperCase()}</p>
+                                    <p className="montserrat" id="email">{profile.email}</p>
+                                </div>
+                            </div>
+                            {content()}
+                        </main>
+                    </div>
+                </Container>
             </div>
             
             <DashboardIconSet />

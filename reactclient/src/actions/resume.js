@@ -14,7 +14,7 @@ export const getResumeBlobs = (resumes) => async dispatch => {
 
 const blobUtil = async(path) => {
     const response = await axios.request({
-        url: path,
+        url: '/' + path,
         method: 'GET',
         responseType: 'blob'
     })

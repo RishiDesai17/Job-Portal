@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
 const preInterviewSchema = new mongoose.Schema({
-    instructions: {
-        type: String,
-        required: true
-    },
+    // instructions: {
+    //     type: String,
+    //     required: true
+    // },
     deadline: {
         type: Date,
         required: true

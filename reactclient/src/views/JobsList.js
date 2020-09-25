@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Jobs = (props) => {
+const Jobs = props => {
     const { jobs, numPages } = useSelector(state => ({
         jobs: state.JobsReducer.jobs,
         numPages: state.JobsReducer.numPages
@@ -55,13 +55,14 @@ const Jobs = (props) => {
             <Grid container>
                 <Grid item lg={9} md={8} sm={12} xs={12}>
                     <Grid container>
-                        {jobs[currentPage] ? jobs[currentPage].map((job, index) => (
-                            <Grid item lg={6} md={6} sm={12} xs={12} key={index}>
-                                <div style={{ margin: 10 }}>
-                                    <JobCard job={job} showReadMoreButton={true} />
-                                </div>
-                            </Grid>
-                        ))
+                        {jobs[currentPage] ? 
+                            jobs[currentPage].map((job, index) => (
+                                <Grid item lg={6} md={6} sm={12} xs={12} key={index}>
+                                    <div style={{ margin: 10 }}>
+                                        <JobCard job={job} showReadMoreButton={true} />
+                                    </div>
+                                </Grid>
+                            ))
                         :
                             <div style={{ position: 'relative', top:'50%', left: '50%' }}>
                                 <DotsLoader />

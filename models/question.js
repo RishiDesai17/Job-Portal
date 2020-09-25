@@ -5,8 +5,19 @@ const questionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    solution: {
+    type: {
+        type: String,
+        required: true
+    },
+    options: [{
         type: String
+    }],
+    answer: {
+        type: String
+    },
+    preinterview: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     }
 })
 

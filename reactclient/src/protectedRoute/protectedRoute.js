@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useSelector, shallowEqual } from 'react-redux';
 
@@ -9,7 +9,7 @@ const ProtectedRoute = ({
     const isLoggedIn = useSelector(state => state.AuthReducer.isLoggedIn, shallowEqual)
 
     if(isLoggedIn!==null){
-        console.log(rest)
+        // console.log(rest)
         return(
             <Route 
                 {...rest}

@@ -125,6 +125,7 @@ const NewJob = ({ setCurrent }) => {
             });
         }
         catch(err){
+            console.log(err)
             alert("Something went wrong")
         }
     }
