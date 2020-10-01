@@ -30,7 +30,7 @@ const Router = () => {
                     <ProtectedRoute exact path="/dashboard" component={Dashboard} />
                     <ProtectedRoute exact path="/dashboard/newjob" component={NewJob} />
                     <ProtectedRoute exact path="/dashboard/myjobs" component={MyJobs} />
-                    <ProtectedRoute exact path="/dashboard/preinterview" component={PreInterviewCreate} />
+                    <ProtectedRoute exact path="/preinterview/:jobid" component={PreInterviewCreate} />
                     <Redirect from="/" to="/dashboard" />
                 </Switch>   
             }

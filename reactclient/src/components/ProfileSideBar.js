@@ -116,13 +116,13 @@ const ProfileSideBar = (props) => {
                     </>
                 :
                     <>
-                        <ListItem button className={classes.buttons} style={{ backgroundColor: current === "Pre-Interviews" && '#009ffd' }} onClick={() => {
+                        {/* <ListItem button className={classes.buttons} style={{ backgroundColor: current === "Pre-Interviews" && '#009ffd' }} onClick={() => {
                             history.push('/dashboard/preinterview')
                             setMobileOpen(false)
                         }}>
                             <ListItemIcon> <AssignmentIcon style={{ color: "white" }} /> </ListItemIcon>
                             <ListItemText primary='Pre-Interviews' />
-                        </ListItem>
+                        </ListItem> */}
                         <ListItem button className={classes.buttons} style={{ backgroundColor: current === "New Job" && '#009ffd' }} onClick={() => {
                             history.push("/dashboard/newjob")
                             setMobileOpen(false)

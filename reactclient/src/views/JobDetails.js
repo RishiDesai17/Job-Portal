@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import JobCard from '../components/JobCard';
 import axios from 'axios';
 import CallIcon from '@material-ui/icons/Call';
@@ -10,18 +10,38 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { toast } from "react-toastify";
 import Toast from '../components/Toast';
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
 import './styles/JobDetails.css';
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+      position: 'absolute',
+      width: 400,
+      backgroundColor: theme.palette.background.paper,
+      border: '2px solid #000',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
+}));
 
 const Job = props => {
     const [job, setJob] = useState()
     const [progress, setProgress] = useState(false)
     const [buttonDisabled, setButtonDisabled] = useState(false)
+    const [modal, setModal] = useState(false)
+
     const role = useSelector(useCallback(state => state.AuthReducer.role, []))
-    const { jobid, num } = useParams();
+    const resumes = useSelector(state => state.ResumeReducer.resumes)
+    // const profile = useSelector(useCallback(state => state.AuthReducer.profile, []))
+
+    const { jobid } = useParams();
+    const history = useHistory();
+    
+    const classes = useStyles();
 
     useEffect(() => {
         getJobDetails()
-        console.log(num, typeof num)
     }, [])
 
     const getJobDetails = async() => {
@@ -37,6 +57,7 @@ const Job = props => {
 
     const apply = async() => {
         try{
+            setModal(false)
             setProgress(true)
             setButtonDisabled(true)
             const response = await axios.post('/api/jobs/apply',
@@ -103,9 +124,22 @@ const Job = props => {
                                 <p>{job.positions}</p>
                             </>
                             <div style={{ textAlign: 'center' }}>
-                                {role === 'user' && <Button color="primary" variant="contained" disabled={buttonDisabled} style={{ width: 260 }} onClick={apply}>
-                                    APPLY
-                                </Button>}
+                                {role === 'user' ? <>
+                                    {!job.hasApplied ? <Button color="primary" variant="contained" disabled={buttonDisabled} style={{ width: 260 }} onClick={() => setModal(true)}>
+                                        APPLY
+                                    </Button> : <p>You have already applied</p>} </>
+                                :   
+                                    <div>
+                                        <Button>
+                                            View Applicants
+                                        </Button>
+                                        <Button onClick={() => {
+                                            history.push(`/preinterview/${jobid}`)
+                                        }}>
+                                            Create Pre-Interview
+                                        </Button>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </> 
@@ -117,6 +151,22 @@ const Job = props => {
                     </>
                 }
             </div>
+            {modal && <Modal
+                open={() => setModal(true)}
+                onClose={() => setModal(false)}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                <div style={{ top: '50%', left: '50%', transform: "translate(-50%, -50%)" }} className={classes.paper}>
+                    {resumes.length===0 ? <p>Loading Resumes...</p> : resumes.map((resume) => (
+                        <a href={"http://localhost:3001/" + resume.path}>{resume.path}</a>
+                    ))}
+                    <div>
+                        <button onClick={apply}>APPLY</button>
+                    </div>
+                        
+                </div>
+            </Modal>}
             <Toast />
         </>
     )

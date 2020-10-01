@@ -1,6 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import CheckIcon from '@material-ui/icons/Check';
+import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const CreateQuestion = ({ addQuestion, type }) => {
     const question = useRef("")
@@ -36,6 +39,7 @@ const CreateQuestion = ({ addQuestion, type }) => {
                 rows={4}
                 placeholder="Enter question"
                 variant="outlined"
+                style={{ width: '75%' }}
                 onChange={e => {
                     question.current = e.target.value
                 }}
@@ -49,16 +53,14 @@ const CreateQuestion = ({ addQuestion, type }) => {
                                 <TextField id="standard-basic" style={{ marginTop: 0 }} label={String.fromCharCode(index + 65)} onChange={e => enterOptions(e.target.value, index)} />
                             </div>
                             <div>
-                                {correctAnswer !== index ? 
-                                    <button onClick={() => setCorrectAnswer(index)}>Mark</button>
-                                :
-                                    <CheckIcon style={{ color: 'darkgreen' }} />
-                                }
+                                <FormControlLabel
+                                    control={<Checkbox checked={correctAnswer === index} style={{ color: correctAnswer === index && 'green' }} onChange={() => setCorrectAnswer(index)} name="checkedA" />}
+                                />
                             </div>
                         </div>
                     ))}
                 </>}
-                <button onClick={() => {
+                <Button variant="contained" color="primary" style={{ backgroundColor: 'green', marginTop: 20 }} onClick={() => {
                     if(!validation()){
                         alert("Please fill the fields properly")
                         return;
@@ -72,7 +74,7 @@ const CreateQuestion = ({ addQuestion, type }) => {
                         questionObj.answer = String.fromCharCode(correctAnswer + 65)
                     }
                     addQuestion(questionObj)
-                }}>Add</button>
+                }}>Add</Button>
             </div>
         </>
     )

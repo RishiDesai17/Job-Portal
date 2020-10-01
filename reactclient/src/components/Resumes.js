@@ -10,7 +10,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 const Resumes = (props) => {
     const [numPages, setNumPages] = useState(null);
-    const [shit, setShit] = useState()
     const resumes = useSelector(state => state.ResumeReducer.resumes, shallowEqual)
     
     function onDocumentLoadSuccess({ numPages }) {
@@ -47,7 +46,7 @@ const Resumes = (props) => {
         const page = await doc.getPage(1)
         console.log(page)
         const x = await makeThumb(page)
-        setShit(x)
+        
         // const element = document.createElement('div');
         // const iframe = document.createElement('iframe');
 
@@ -85,6 +84,9 @@ const Resumes = (props) => {
         <div className="resumes-container">
             <p id="resumes-title">Resumes</p>
             <Grid container>
+            {resumes.length===0 ? <p>Loading Resumes...</p> : resumes.map((resume) => (
+                <a href={"http://localhost:3001/" + resume.path}>{resume.path}</a>
+            ))}
                 {/* {resumes.length===0 ? <p>Loading Resumes...</p> : resumes.map((resume) => (
                     <div style={{height: 300, width: 300}}>
                         <Grid item md={4} sm={6} xs={12}>
@@ -97,7 +99,6 @@ const Resumes = (props) => {
                     </div>
                 ))} */}
             </Grid>
-            {/* {shit} */}
         </div>
     )
 }
