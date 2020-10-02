@@ -22,7 +22,7 @@ const Router = () => {
                 <LoadingPage />
             : 
                 <Switch>
-                    {/* <Route exact path="/" component={Home} /> */}
+                    <Route exact path="/" component={Home} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/jobs" component={Jobs} />
                     <Route exact path="/jobs/:jobid" component={JobDetails} />
@@ -31,7 +31,7 @@ const Router = () => {
                     <ProtectedRoute exact path="/dashboard/newjob" component={NewJob} />
                     <ProtectedRoute exact path="/dashboard/myjobs" component={MyJobs} />
                     <ProtectedRoute exact path="/preinterview/:jobid" component={PreInterviewCreate} />
-                    <Redirect from="/" to="/dashboard" />
+                    {/* <Redirect from="/" to="/dashboard" /> */}
                 </Switch>   
             }
         </BrowserRouter>

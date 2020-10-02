@@ -5,14 +5,15 @@ import { Link } from 'react-router-dom';
 import './styles/home.css'
 
 const Home = (props) => {
-    const [state, setState] = useState()
     const isLoggedIn = useSelector(state => state.AuthReducer.isLoggedIn, shallowEqual)
     const dispatch = useDispatch()
 
     return (
-        <div>
-            <Header />
-            <h1>Home</h1>
+        <div id="background">
+            <div id="main-content">
+                <h1 style={{ color: 'white' }}>Apply for a job</h1>
+                <h1 style={{ color: 'white' }}>Pre-interview on same portal</h1>
+            </div>
             {console.log("render home")}
             <div>
                 {isLoggedIn ? 

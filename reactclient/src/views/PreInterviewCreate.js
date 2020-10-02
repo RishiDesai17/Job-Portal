@@ -13,39 +13,44 @@ import Header from '../components/Header';
 const PreInterviewCreate = (props) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedType, setSelectedType] = useState(null)
-    const [questions, setQuestions] = useState([])
+    const [questions, setQuestions] = useState([{
+        question: 'abcd',
+        type: 'MCQ',
+        options: [
+            'a',
+            'b',
+            'c',
+            'd'
+        ],
+        answer: 'A'
+    }])
 
     const role = useSelector(state => state.AuthReducer.role)
 
     const { jobid } = useParams()
 
-    const questionTemplate = () => {
-        return(
-            <div>
-                <CreateQuestion addQuestion={addQuestion} type={selectedType} />
-            </div>
-        )
-    }
-
     const addQuestion = (questionObj) => {
         setQuestions(questions => {
-            return [...questions, questionObj]
+            return [questionObj, ...questions]
         })
         setSelectedType(null)
     }
 
     const mapQuestions = () => {
         return(
-            <div>
+            <div style={{ marginTop: 20 }}>
                 {questions.map((ques, index) => {
                     const { question, answer, options, type } = ques
                     return( 
                         <div>
-                            <p>{index + 1}</p>
                             {type === "MCQ" ? 
-                                <Mcq question={question} answer={answer} options={options} /> 
-                            : 
-                                <h4>{question}</h4>
+                                <Mcq question={question} quesNo={questions.length - index} answer={answer} options={options} />
+                            :
+                                <div style={{ marginLeft: '10%', marginRight: '10%', textAlign: 'left' }}>
+                                    <div style={{ margin: 20, wordBreak: 'break-all' }}>
+                                        <p style={{ fontSize: 25, marginTop: 0, marginBottom: 0 }}><b>{questions.length - index}.</b> {question}</p>
+                                    </div>
+                                </div>
                             }
                         </div>
                     )
@@ -77,7 +82,9 @@ const PreInterviewCreate = (props) => {
                             }}>{type}</MenuItem>
                         ))}
                     </Menu>
-                    {selectedType !== null && questionTemplate()}
+                    {selectedType !== null && <div>
+                        <CreateQuestion addQuestion={addQuestion} type={selectedType} />
+                    </div>}
                 </Grid>
                 <Grid item md={6} sm={12} xs={12}>
                     {mapQuestions()}
