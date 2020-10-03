@@ -13,3 +13,34 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+.main-content-text{
+    color: white;
+    font-family: "MontserratRegular";
+}
+.profileButton{
+    border: 3px solid white;
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    position: absolute;
+    top: 7px;
+    float: right;
+    right: 10px;
+}
+.loginButton{
+    position: absolute;
+    float: right;
+    right: 15px;
+    color: white;
+    font-family: "MontserratRegular";
+}
+@media screen and (max-width: 550px){
+    .main-content-text{
+        font-size: 25px;
+    }
+}
+@media screen and (max-width: 400px){
+    .main-content-text{
+        font-size: 20px;
+    }
+}
