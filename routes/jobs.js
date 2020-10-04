@@ -7,6 +7,8 @@ router.get('/', JobsController.getAllJobs)
 
 router.get('/:jobid', JobsController.getJob)
 
+router.get('/details/public/:jobid', JobsController.getJobDetailsPublic)
+
 router.get('/details/:jobid', checkAuth, JobsController.getJobDetails)
 
 router.get('/filter', JobsController.getJobsByDomain)

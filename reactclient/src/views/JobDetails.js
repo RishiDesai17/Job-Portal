@@ -133,11 +133,11 @@ const Job = props => {
                                         <Button>
                                             View Applicants
                                         </Button>
-                                        <Button onClick={() => {
+                                        {!job.preInterview && <Button onClick={() => {
                                             history.push(`/preinterview/${jobid}`)
                                         }}>
                                             Create Pre-Interview
-                                        </Button>
+                                        </Button>}
                                     </div>
                                 }
                             </div>

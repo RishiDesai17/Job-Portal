@@ -82,6 +82,28 @@ exports.getJobDetails = async(req,res) => {
     }
 }
 
+exports.getJobDetailsPublic = async(req,res) => {
+    try {
+        let job = await Job.findById(req.params.jobid).lean()
+            .populate('employer', '-jobs')
+            .populate('domain')
+        // const { applicants, shortlisted, selected } = job
+        // if(applicants.includes(id) || shortlisted.includes(id) || selected.includes(id)){
+        //     job.hasApplied = true
+        // }
+        // job.totalApplications = applicants.length + shortlisted.length + selected.length
+        job.applicants = job.shortlisted = job.selected = undefined
+        return res.status(200).json({
+            job
+        })
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({
+            SOMETHING_WENT_WRONG: 'Something went wrong, Please try again'
+        })
+    }
+}
+
 exports.createJob = async(req,res) => {
     try{
         const { id, role } = req.userData

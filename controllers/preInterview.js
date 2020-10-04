@@ -5,16 +5,23 @@ const Question = require("../models/question");
 exports.createInterview = async(req, res) => {
     try{
         const { deadline, questions, jobID } = req.body
+        // console.log(questions)
+        // console.log(typeof questions)
+        
+        const question_ids = await Promise.all(questions.map(async question => {
+            const { _id } = await new Question({
+                ...question,
+            }).save()
+            console.log(_id)
+            return _id
+        }))
         const preInterview = await new PreInterview({
             deadline,
-            questions
+            questions: question_ids
         }).save();
-        await Promise.all([...questions.map(question => {
-            await new Question({
-                ...question,
-                preinterview: preInterview._id
-            }).save()
-        }), linkPreInterviewToJob(preInterview._id, jobID)])
+        await Job.findByIdAndUpdate(jobID, {
+            'preInterview': preInterview._id
+        })
         return res.status(200).json({
             message: 'Pre Interview Created'
         })
@@ -24,16 +31,5 @@ exports.createInterview = async(req, res) => {
         return res.status(500).json({
             SOMETHING_WENT_WRONG: 'Something went wrong, Please try again'
         })
-    }
-}
-
-const linkPreInterviewToJob = async(preInterviewID, jobID) => {
-    try{
-        await Job.findByIdAndUpdate(jobID, {
-            'preInterview': preInterviewID
-        })
-    }
-    catch(error){
-        console.log(error)
     }
 }

@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
         type: [{
             type: String,
         }],
-        validate: [arrayLimit, '{PATH} exceeds the limit of 5']
+        validate: [arrayLimit, 'exceeded the limit of 5']
     },
     jobsApplied: [{
         type: mongoose.Schema.Types.ObjectId,

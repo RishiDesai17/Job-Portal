@@ -3,6 +3,6 @@ const router = express.Router();
 const PreInterviewController = require('../controllers/preInterview');
 const checkAuth = require('../middleware/check-auth');
 
-router.post('/create', PreInterviewController.createInterview);
+router.post('/create', checkAuth, PreInterviewController.createInterview);
 
 module.exports = router;

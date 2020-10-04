@@ -14,10 +14,6 @@ const questionSchema = new mongoose.Schema({
     }],
     answer: {
         type: String
-    },
-    preinterview: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
     }
 })
 

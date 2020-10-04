@@ -23,17 +23,19 @@ const tokenRoutes = require('./routes/refreshAccessTokens');
 const employerRoutes = require('./routes/employers');
 const jobRoutes = require('./routes/jobs');
 const domainRoutes = require('./routes/domains');
+const preInterviewRoutes = require('./routes/preInterview');
 
 app.use('/api/users', userRoutes);
 app.use('/api/refresh', tokenRoutes);
 app.use('/api/employers', employerRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/domains', domainRoutes);
+app.use('/api/pre-interview', preInterviewRoutes);
 
 if(process.env.NODE_ENV === "dev"){
   console.log('dev')
   const whitelist = ['http://localhost:3000'];
-      var corsOptionsDelegate = (req, callback) => {
+  var corsOptionsDelegate = (req, callback) => {
       var corsOptions;
       console.log(req.header('Origin'));
       if(whitelist.indexOf(req.header('Origin')) !== -1) {

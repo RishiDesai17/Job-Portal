@@ -14,8 +14,14 @@ const preInterviewSchema = new mongoose.Schema({
         ref: 'Question'
     }],
     submissions: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Submission'
+        submission: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Submission'
+        },
+        applicant: {
+            type: String,
+            ref: 'User'
+        }
     }]
 })
 
