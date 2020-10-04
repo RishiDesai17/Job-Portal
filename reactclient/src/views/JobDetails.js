@@ -134,7 +134,9 @@ const Job = props => {
                                     </Button> : <p>You have already applied</p>} </>
                                 :
                                     <div>
-                                        <Button>
+                                        <Button onClick={() => {
+                                            history.push(`/candidates/${jobid}`)
+                                        }}>
                                             View Applicants
                                         </Button>
                                         {!job.preInterview && <Button onClick={() => {

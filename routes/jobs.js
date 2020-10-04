@@ -17,6 +17,8 @@ router.post('/createjob', checkAuth, JobsController.createJob);
 
 router.post('/apply', checkAuth, JobsController.apply);
 
+router.get('/applicants/:jobid', checkAuth, JobsController.getApplicants)
+
 router.post('/shortlist', checkAuth, JobsController.shortlist);
 
 module.exports = router;

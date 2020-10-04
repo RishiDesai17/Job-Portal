@@ -11,7 +11,9 @@ import NewJob from './views/NewJob';
 import MyJobs from './views/MyJobs';
 import JobDetails from './views/JobDetails';
 import PreInterviewCreate from './views/PreInterviewCreate';
+import Condidates from './views/Candidates';
 import LoadingPage from './views/LoadingPage';
+import Candidates from './views/Candidates';
 
 const Router = () => {
     const loading = useSelector(state => state.AuthReducer.loading)
@@ -31,7 +33,7 @@ const Router = () => {
                     <ProtectedRoute exact path="/dashboard/newjob" component={NewJob} />
                     <ProtectedRoute exact path="/dashboard/myjobs" component={MyJobs} />
                     <ProtectedRoute exact path="/preinterview/:jobid" component={PreInterviewCreate} />
-                    {/* <Redirect from="/" to="/dashboard" /> */}
+                    <ProtectedRoute exact path="/candidates/:jobid" component={Candidates} />
                 </Switch>   
             }
         </BrowserRouter>

@@ -171,6 +171,22 @@ exports.apply = async(req,res) => {
     }
 }
 
+exports.getApplicants = async(req, res) => {
+    try{
+        const job = await Job.findById(req.params.jobid).select('applicants title').populate('applicants.applicant', 'name')
+        console.log(job)
+        return res.status(200).json({
+            job
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.status(500).json({
+            SOMETHING_WENT_WRONG: 'Something went wrong, Please try again'
+        })
+    }
+}
+
 exports.shortlist = async(req,res) => {
     try{
         const { id, role } = req.userData
