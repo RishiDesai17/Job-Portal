@@ -44,8 +44,14 @@ const jobSchema = new mongoose.Schema({
         ref: 'PreInterview'
     },
     applicants: [{
-        type: String,
-        ref: 'User'
+        applicant: {
+            type: String,
+            ref: 'User'
+        },
+        resumeLink: {
+            type: String,
+            required: true
+        }
     }],
     shortlisted: [{
         type: String,

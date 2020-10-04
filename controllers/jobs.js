@@ -66,7 +66,7 @@ exports.getJobDetails = async(req,res) => {
             .populate('employer', '-jobs')
             .populate('domain')
         const { applicants, shortlisted, selected } = job
-        if(applicants.includes(id) || shortlisted.includes(id) || selected.includes(id)){
+        if(applicants.some(x => x.applicant === id) || shortlisted.includes(id) || selected.includes(id)){
             job.hasApplied = true
         }
         job.totalApplications = applicants.length + shortlisted.length + selected.length
@@ -142,7 +142,7 @@ exports.createJob = async(req,res) => {
 exports.apply = async(req,res) => {
     try{
         const { id, role } = req.userData
-        const { jobID } = req.body
+        const { jobID, resumeLink } = req.body
         if(role !== "user"){
             return res.status(401).json({
                 UNAUTHORIZED: 'You are not allowed to perform this action'
@@ -150,7 +150,10 @@ exports.apply = async(req,res) => {
         }
         const response = await Promise.all([
             Job.findByIdAndUpdate(jobID, {
-                $addToSet: { "applicants": id }
+                $push: { "applicants": {
+                    applicant: id,
+                    resumeLink
+                }}
             }),
             User.findByIdAndUpdate(id, {
                 $addToSet: { "jobsApplied": jobID }

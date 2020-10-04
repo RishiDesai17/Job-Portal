@@ -113,7 +113,6 @@ const NewJob = ({ setCurrent }) => {
                 }
             )
             setProgress(false)
-            setCurrent("Profile")
             toast.success('Job Created', {
                 position: "top-center",
                 autoClose: 3000,

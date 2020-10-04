@@ -1,7 +1,7 @@
 import axios from 'axios';
 import setAccessToken from '../utils/setAccessToken'
 import SilentlyReviveAccessToken from '../utils/silentlyReviveAccessToken';
-import { getResumeBlobs } from './resume';
+import { getResumes } from './resume';
 import { INIT_LOGIN, LOGOUT } from './types';
 
 export const init = () => async dispatch => {
@@ -30,7 +30,7 @@ export const init = () => async dispatch => {
             }
         })
         if(role === "user"){
-            dispatch(getResumeBlobs(profile.resumes))
+            dispatch(getResumes(profile.resumes))
         }
         setInterval(() => {
             SilentlyReviveAccessToken()
@@ -73,7 +73,7 @@ export const login = ({ url, code, emailPassword }) => async dispatch => {
             }
         })
         if(role === "user"){
-            dispatch(getResumeBlobs(profile.resumes))
+            dispatch(getResumes(profile.resumes))
         }
         setInterval(() => {
             SilentlyReviveAccessToken()

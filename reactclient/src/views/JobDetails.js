@@ -9,9 +9,11 @@ import Button from '@material-ui/core/Button';
 import Skeleton from '@material-ui/lab/Skeleton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { toast } from "react-toastify";
-import Toast from '../components/Toast';
-import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import Card from '@material-ui/core/Card';
+import Checkbox from '@material-ui/core/Checkbox'; 
+import { makeStyles } from '@material-ui/core/styles';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import './styles/JobDetails.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +32,7 @@ const Job = props => {
     const [progress, setProgress] = useState(false)
     const [buttonDisabled, setButtonDisabled] = useState(false)
     const [modal, setModal] = useState(false)
+    const [selectedResumeIndex, setSelectedResumeIndex] = useState(0)
 
     const role = useSelector(useCallback(state => state.AuthReducer.role, []))
     const resumes = useSelector(state => state.ResumeReducer.resumes)
@@ -62,7 +65,8 @@ const Job = props => {
             setButtonDisabled(true)
             const response = await axios.post('/api/jobs/apply',
                 JSON.stringify({
-                    jobID: job._id
+                    jobID: job._id,
+                    resumeLink: resumes[selectedResumeIndex]
                 }),
                 {
                     headers: {
@@ -128,7 +132,7 @@ const Job = props => {
                                     {!job.hasApplied ? <Button color="primary" variant="contained" disabled={buttonDisabled} style={{ width: 260 }} onClick={() => setModal(true)}>
                                         APPLY
                                     </Button> : <p>You have already applied</p>} </>
-                                :   
+                                :
                                     <div>
                                         <Button>
                                             View Applicants
@@ -158,8 +162,18 @@ const Job = props => {
                 aria-describedby="simple-modal-description"
             >
                 <div style={{ top: '50%', left: '50%', transform: "translate(-50%, -50%)" }} className={classes.paper}>
-                    {resumes.length===0 ? <p>Loading Resumes...</p> : resumes.map((resume) => (
-                        <a href={"http://localhost:3001/" + resume.path}>{resume.path}</a>
+                    {resumes === null ? <p>Loading Resumes...</p> : resumes.length === 0 ? <p>You haven't added a resume</p> : resumes.map((path, index) => (
+                        <Card style={{ textAlign: 'left', height: 50, marginTop: 7 }}>
+                            <div style={{ marginLeft: 10, marginRight: 10, display: 'flex', justifyContent:'space-between', alignItems: 'center' }}>
+                                <Checkbox
+                                    checked={selectedResumeIndex === index}
+                                    onChange={() => setSelectedResumeIndex(index)}
+                                    inputProps={{ 'aria-label': 'primary checkbox' }}
+                                />
+                                <p>{path.split(/_(.+)/)[1]}</p>
+                                <a style={{ float: 'right' }} target="_blank" href={"http://localhost:3001/" + path}><OpenInNewIcon style={{ color: 'blue' }} /></a>
+                            </div>
+                        </Card>
                     ))}
                     <div>
                         <button onClick={apply}>APPLY</button>
@@ -167,7 +181,6 @@ const Job = props => {
                         
                 </div>
             </Modal>}
-            <Toast />
         </>
     )
 }

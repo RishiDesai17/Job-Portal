@@ -1,30 +1,21 @@
-import { FETCH_RESUMES, ADDRESUME } from "../actions/types"
+import { FETCH_RESUMES, ADD_RESUME } from "../actions/types"
 
 const INIT_STATE = {
-    resumes: []
+    resumes: null
 }
 
 const ResumeReducer = (state = INIT_STATE, action) => {
     const { type, payload } = action
     switch(type){
-        // case "SET_RESUME_PATHS":
-        //     return {
-        //         ...state,
-        //         resumes: payload
-        //     }
         case FETCH_RESUMES:
             return {
                 ...state,
                 resumes: payload
             }
-        case ADDRESUME:
-            // let x = state.resumes
-            // x.push(payload.s)
-            console.log(payload.s)
-            // alert("y")
+        case ADD_RESUME:
             return {
                 ...state,
-                resumes: [...state.resumes, payload.s]
+                resumes: [...state.resumes, payload]
             }
         default:
             return state

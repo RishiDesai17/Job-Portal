@@ -1,104 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
-import { Document, Page, pdfjs } from 'react-pdf';
-import Grid from '@material-ui/core/Grid';
+import AddResume from './AddResume';
+import Card from '@material-ui/core/Card';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 import './styles/Resumes.css';
+import { makeStyles } from '@material-ui/core/styles';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-// console.log(pdfjs)
+const useStyles = makeStyles((theme) => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
 
 const Resumes = (props) => {
-    const [numPages, setNumPages] = useState(null);
     const resumes = useSelector(state => state.ResumeReducer.resumes, shallowEqual)
-    
-    function onDocumentLoadSuccess({ numPages }) {
-        setNumPages(numPages);
-    }
 
-    useEffect(()=>{
-        // console.log(resumes[0])
-        // setShit(fn(resumes[0].path))
-        fn(resumes[0])
-    },[])
+    const [open, setOpen] = useState(false);
 
-    function makeThumb(page) {
-        var vp = page.getViewport({ scale: 1, rotate: 0 });
-        var canvas = document.createElement("canvas");
-        canvas.width = canvas.height = 96;
-        var scale = Math.min(canvas.width / vp.width, canvas.height / vp.height)
-        // let y = null
-        return page.render({canvasContext: canvas.getContext("2d"), viewport: page.getViewport({scale,rotate:0})}).promise.then(() => {
-            console.log(canvas)
-            return canvas
-        })
-        // return y
-        // canvas.width = canvas.height = 96;
-        // var scale = Math.min(canvas.width / vp.width, canvas.height / vp.height);
-        // return page.render({canvasContext: canvas.getContext("2d"), viewport: page.getViewport(scale)}).promise.then(function () {
-        //   return canvas;
-        // });
-      }
-
-    const fn = async() => {
-        const doc = await pdfjs.getDocument("/uploads/100041255185678789124/1597332350355My Resume.pdf").promise
-        console.log(doc)
-        const page = await doc.getPage(1)
-        console.log(page)
-        const x = await makeThumb(page)
-        
-        // const element = document.createElement('div');
-        // const iframe = document.createElement('iframe');
-
-        // iframe.src = src; //`/pdfjs-1.9.426-dist/web/viewer.html?file=${source}`;
-        // iframe.width = '100%';
-        // iframe.height = '100%';
-
-        // element.appendChild(iframe);
-//         const pdfBuffer = fs.readFileSync('/some/path/example.pdf');
- 
-// pdf(
-//   pdfBuffer, /*Buffer or stream of the pdf*/
-// //   options
-// )
-//   .then(data /*Stream of the image*/ => {
-//     console.log(data)
-//   })
-//   .catch(err => console.log(err))
-//         console.log(src)
-//         pdf(fs.readFileSync("http://localhost:3001/uploads/100041255185678789124/1596919621314My Resume.pdf"))
-//   .then(data /*is a stream*/ => {
-//       console.log(data)
-//     //   data.pipe(fs.createWriteStream("./previewBuffer.jpg"))
-//     })
-//   .catch(err => console.error(err))
-
-        // return (
-        //     <div>
-        //         <iframe src="http://localhost:3001/uploads/100041255185678789124/1596919621314My Resume.pdf" width="300" height="300"></iframe>
-        //     </div>
-        // )
-    }
+    const classes = useStyles();
 
     return (
         <div className="resumes-container">
             <p id="resumes-title">Resumes</p>
-            <Grid container>
-            {resumes.length===0 ? <p>Loading Resumes...</p> : resumes.map((resume) => (
-                <a href={"http://localhost:3001/" + resume.path}>{resume.path}</a>
-            ))}
-                {/* {resumes.length===0 ? <p>Loading Resumes...</p> : resumes.map((resume) => (
-                    <div style={{height: 300, width: 300}}>
-                        <Grid item md={4} sm={6} xs={12}>
-                            <Document 
-                                file={resume.blob} 
-                            >
-                                <Page pageNumber={1} />
-                            </Document>
-                        </Grid>
+            {resumes !== null && resumes.length <5 && <button onClick={() => {
+                setOpen(true)
+            }}>ADD</button>}
+            <div style={{ textAlign: 'left' }}>
+                {resumes === null ? <p>Loading Resumes...</p> : resumes.length === 0 ? <p>You haven't added a resume</p> : resumes.map(path => {
+                    return(
+                        <Card style={{ textAlign: 'left', height: 50, marginTop: 7 }}>
+                            <div style={{ marginLeft: 10, marginRight: 10, display: 'flex', justifyContent:'space-between', alignItems: 'center' }}>
+                                <p>{path.split(/_(.+)/)[1]}</p>
+                                <a style={{ float: 'right' }} target="_blank" href={"http://localhost:3001/" + path}><OpenInNewIcon style={{ color: 'blue' }} /></a>
+                            </div>
+                        </Card>
+                    )
+                })}
+            </div>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open}
+                onClose={() => setOpen(false)}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={open}>
+                    <div className={classes.paper}>
+                        <AddResume />
+                        {/* <h2 id="transition-modal-title">Transition modal</h2>
+                        <p id="transition-modal-description">react-transition-group animates me.</p> */}
                     </div>
-                ))} */}
-            </Grid>
+                </Fade>
+            </Modal>
         </div>
     )
 }
