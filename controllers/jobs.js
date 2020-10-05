@@ -187,6 +187,40 @@ exports.getApplicants = async(req, res) => {
     }
 }
 
+exports.getShortlisted = async(req, res) => {
+    try{
+        const job = await Job.findById(req.params.jobid)
+            .select('shortlisted title preInterview')
+            .populate('shortlisted', 'name')
+            .populate('preInterview', 'submissions')
+        return res.status(200).json({
+            job
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.status(500).json({
+            SOMETHING_WENT_WRONG: 'Something went wrong, Please try again'
+        })
+    }
+}
+
+exports.getSelected = async(req, res) => {
+    try{
+        const job = await Job.findById(req.params.jobid).select('selected title').populate('selected', 'name')
+        console.log(job)
+        return res.status(200).json({
+            job
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.status(500).json({
+            SOMETHING_WENT_WRONG: 'Something went wrong, Please try again'
+        })
+    }
+}
+
 exports.shortlist = async(req,res) => {
     try{
         const { id, role } = req.userData
@@ -201,7 +235,7 @@ exports.shortlist = async(req,res) => {
         const response = await Promise.all([
             Job.findByIdAndUpdate(jobID, {
                 $addToSet: { "shortlisted": userID },
-                $pull: { "applicants": userID }
+                $pull: { "applicants": { applicant: userID } }
             }),
             User.findByIdAndUpdate(userID, {
                 $addToSet: { "jobsShortlisted": jobID },
